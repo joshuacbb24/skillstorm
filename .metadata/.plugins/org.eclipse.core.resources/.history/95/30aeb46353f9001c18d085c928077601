@@ -1,0 +1,9 @@
+package com.skillstorm.servlets;
+
+import javax.servlet.http.HttpServlet;
+
+public class ArtistServlet extends HttpServlet{
+
+	private static final long serialVersionUID = 5795274365670879885L;
+
+}

@@ -1,0 +1,5 @@
+INDEX VERSION 1.131
+C:\Users\joshu\Java Workspace\.metadata\.plugins\org.eclipse.jst.jsp.core\jspsearch\1910446796.index
+\hello-web\target\generated-sources\annotations
+C:\Users\joshu\Java Workspace\.metadata\.plugins\org.eclipse.jst.jsp.core\jspsearch\2866382503.index
+\warehouse-management\target\generated-sources\annotations

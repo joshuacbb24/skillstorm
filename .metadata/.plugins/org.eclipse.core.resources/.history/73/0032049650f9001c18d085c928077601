@@ -1,0 +1,34 @@
+package com.skillstorm.servlets;
+
+import java.io.IOException;
+
+import javax.servlet.ServletException;
+import javax.servlet.annotation.WebServlet;
+import javax.servlet.http.HttpServlet;
+import javax.servlet.http.HttpServletRequest;
+import javax.servlet.http.HttpServletResponse;
+
+// Need to tell TomCat about my Servlet
+@WebServlet(urlPatterns = "/hello") // This is an annotation parameter
+public class HelloServlet extends HttpServlet{
+
+	private static final long serialVersionUID = -5590522137436265416L;
+
+	// Handle get request
+	@Override
+	protected void doGet(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
+		System.out.println("Hello Servlet!");
+		
+		// 1. Send the message itself
+		// 2. Redirect them to the HTML page
+		//resp.getWriter().write("<h1>Hello Servlet!</h1");
+		resp.sendRedirect("public/pages/index.html");
+		//resp.setStatus(200);
+	}
+	
+	@Override
+	protected void doPost(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
+		// TODO Auto-generated method stub
+		super.doPost(req, resp);
+	}
+}

@@ -1,0 +1,14 @@
+package com.skillstorm.filters;
+
+import java.util.logging.Filter;
+import java.util.logging.LogRecord;
+
+public class LoggingFilter implements Filter {
+
+	@Override
+	public boolean isLoggable(LogRecord record) {
+		// TODO Auto-generated method stub
+		return false;
+	}
+
+}

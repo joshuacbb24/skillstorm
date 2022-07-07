@@ -1,0 +1,7 @@
+package com.skillstorm.servlets;
+
+import javax.servlet.http.HttpServlet;
+
+public class ArtistServlet extends HttpServlet{
+
+}

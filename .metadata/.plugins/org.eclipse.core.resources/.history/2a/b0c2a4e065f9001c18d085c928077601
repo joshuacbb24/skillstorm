@@ -1,0 +1,5 @@
+package com.skillstorm.filters;
+
+public class LoggingFilter {
+
+}
