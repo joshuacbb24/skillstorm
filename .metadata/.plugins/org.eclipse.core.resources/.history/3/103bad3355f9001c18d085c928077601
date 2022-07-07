@@ -1,5 +1,0 @@
-package com.skillstorm.services;
-
-public class URLParserService {
-	public int extractIdFromURL();
-}
