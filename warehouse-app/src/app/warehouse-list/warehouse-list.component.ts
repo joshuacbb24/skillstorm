@@ -1,4 +1,5 @@
 import { Component, OnInit } from '@angular/core';
+import { WarehouseApiService } from '../warehouse-api.service';
 
 @Component({
   selector: 'app-warehouse-list',
@@ -7,9 +8,19 @@ import { Component, OnInit } from '@angular/core';
 })
 export class WarehouseListComponent implements OnInit {
 
-  constructor() { }
+  service :WarehouseApiService;
+  warehouses :Array<any> = [];
+  //arrayLength :number = 0;
+
+  constructor(service :WarehouseApiService) {
+    this.service = service;
+   }
 
   ngOnInit(): void {
+    this.service.findAllWarehouses().subscribe(data => {
+      this.warehouses = data;
+    })
+    //this.arrayLength = this.warehouses.length; 
   }
 
 }
