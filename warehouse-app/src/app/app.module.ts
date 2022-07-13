@@ -13,6 +13,7 @@ import { NavbarComponent } from './navbar/navbar.component';
 import {HttpClientModule} from '@angular/common/http'
 import { FormsModule } from '@angular/forms';
 import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
+import { HomeContentComponent } from './home-content/home-content.component';
 
 @NgModule({
   declarations: [
@@ -23,7 +24,8 @@ import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
     WarehouseListComponent,
     CreateItemComponent,
     FilterInventoryComponent,
-    NavbarComponent
+    NavbarComponent,
+    HomeContentComponent
   ],
   imports: [
     BrowserModule,
