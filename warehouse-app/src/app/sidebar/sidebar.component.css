@@ -3,6 +3,10 @@
     height: 100%;
     width: 240px;
     background: #0A2558;
+    transition: all 0.5s ease;
+}
+.sidebar.active{
+    width: 60px;
 }
 .sidebar ul{
     margin-left: 0;
@@ -58,4 +62,5 @@
     color: #fff;
     font-size: 15px;
     font-weight: 400;
+    white-space: nowrap;
 }

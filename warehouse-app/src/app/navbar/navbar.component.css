@@ -1,10 +1,18 @@
 nav{
+    position: fixed;
+    width: calc(100% - 240px);
+    left: 240px;
     height: 80px;
     background: #fff;
     padding: 0 20px;
     display: flex;
     align-items: center;
     justify-content: space-between;
+    transition: all 0.5s ease;
+}
+nav.active{
+    width: calc(100% - 60px);
+    left: 60px
 }
 nav .sidebar-button{
     display: flex;
@@ -15,6 +23,7 @@ nav .sidebar-button{
 nav .sidebar-button i{
     font-size: 35px;
     margin-right: 10px;
+    cursor: pointer;
 }
 nav .search-box{
     height: 50px;
@@ -26,7 +35,7 @@ nav .search-box input{
     position: absolute;
     height: 100%;
     width: 100%;
-    border-radius: 6px;
+    border-radius: 6px 0 0 6px;
     padding: 0 15px;
     font-size: 17px;
     background: #F5F6FA;
@@ -35,15 +44,45 @@ nav .search-box input{
 }
 nav .search-box .bx-search{
     position: absolute;
-    top: 50%;
-    right: 5px;
+    right: -86px;
+    top: 54%;
     transform: translateY(-50%);
+    height: 53px;
+    width: 52px;
+    background: #2697ff;
+    border-radius: 0 6px 6px 0;
+    color: #fff;
+    font-size: 22px;
+    line-height: 53px;
+    text-align: center;
+    cursor: pointer;
+}
+.profile-details{
+    display: flex;
+    align-items: center;
+    height: 50px;
+    min-width: 190px;
+    background: #F5F6FA;
+    border: 2px solid #EFEEF1;
+    border-radius: 6px;
+    padding: 0 15px 0 2px;
+}
+nav .profile-details img{
     height: 40px;
     width: 40px;
-    background: #2697ff;
+    object-fit: cover;
     border-radius: 6px;
-    font-size: 22px;
-    line-height: 40px;
-    text-align: center;
-    color: #fff;
+}
+nav .profile-details .admin_name{
+    font-size: 15px;
+    font-weight: 500;
+    color: #333;
+    margin: 0 10px;
+    white-space: nowrap;
+    width: 105px
+}
+nav .profile-details i{
+    color: #333;
+    font-size: 25px;
+    cursor: pointer;
 }
