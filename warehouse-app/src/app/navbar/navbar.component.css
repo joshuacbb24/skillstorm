@@ -66,6 +66,8 @@ nav .search-box .bx-search{
     border: 2px solid #EFEEF1;
     border-radius: 6px;
     padding: 0 15px 0 2px;
+    position: relative;
+    right: 40px;
 }
 nav .profile-details img{
     height: 40px;

@@ -63,3 +63,6 @@
     padding: 0;
     margin: 0;
 }
+.charts-css.bar.show-labels {
+    --labels-size: 119px;
+}
