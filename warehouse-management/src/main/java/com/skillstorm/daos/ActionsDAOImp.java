@@ -20,7 +20,7 @@ public class ActionsDAOImp implements ActionsDAO{
 	public List<Action> findAll() {
 		
 		
-		String sql = "select activity.user, message.action_message from activity inner join message ON activity.code=message.code";
+		String sql = "select activity.user, message.action_message from activity inner join message on activity.code=message.code";
 		try {
 			Connection conn = DriverManager.getConnection(creds.getUrl(), creds.getUsername(), creds.getPassword());
 			

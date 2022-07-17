@@ -18,7 +18,7 @@ export class HomeContentComponent implements OnInit {
   }
 
   ngOnInit(): void {
-    this.service.findAllWarehouses().subscribe(data => {
+    this.service.findfavoriteWareshouses().subscribe(data => {
       this.warehouses = data
       console.log(this.warehouses)
     });

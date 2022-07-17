@@ -1,8 +1,6 @@
 package com.skillstorm.servlets;
 
 import java.io.IOException;
-import java.io.InputStream;
-import java.util.LinkedList;
 import java.util.List;
 
 import javax.servlet.ServletException;
@@ -12,12 +10,12 @@ import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
 import com.fasterxml.jackson.databind.ObjectMapper;
-import com.skillstorm.daos.WarehouseDAO;
-import com.skillstorm.daos.WarehouseDAOImp;
-import com.skillstorm.models.Warehouse;
+import com.skillstorm.daos.ActionsDAO;
+import com.skillstorm.daos.ActionsDAOImp;
+import com.skillstorm.models.Action;
 
-@WebServlet(urlPatterns = "/home")
-public class Home extends HttpServlet {
+@WebServlet(urlPatterns = "/Activity-list")
+public class ActivityListServlet extends HttpServlet {
 	
 	@Override
 	public void init() throws ServletException {
@@ -45,15 +43,15 @@ public class Home extends HttpServlet {
 	}
 
 	private static final long serialVersionUID = -4275365198197077754L;
-	WarehouseDAO dao = new WarehouseDAOImp();
+	ActionsDAO dao = new ActionsDAOImp();
 	ObjectMapper mapper = new ObjectMapper();
 	
 	@Override
 	protected void doGet(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
-		List<Warehouse> warehouses = dao.getFavorited();
-		System.out.println(warehouses);
+		List<Action> actions = dao.findAll();
+		System.out.println(actions);
 		resp.setContentType("application/json");
-		resp.getWriter().print(mapper.writeValueAsString(warehouses));
+		resp.getWriter().print(mapper.writeValueAsString(actions));
 		System.out.println("got here");
 	}
 	
@@ -62,5 +60,4 @@ public class Home extends HttpServlet {
 		// TODO Auto-generated method stub
 		super.doPost(req, resp);
 	}
-
 }

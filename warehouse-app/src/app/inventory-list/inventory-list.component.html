@@ -5,16 +5,16 @@
 <table>
     <tr>
         <th>Name</th>
-        <th>Address</th>
+        <th>Date</th>
         <th>Building</th>
         <th>Quantity</th>
         <th>Edit</th>
     </tr>
-    <tr>
-        <td></td>
-        <td></td>
-        <td></td>
-        <td></td>
+    <tr *ngFor="let item of inventory">
+        <td>{{item.name}}</td>
+        <td>{{item.date}}</td>
+        <td>{{item.buildingName}}</td>
+        <td>{{item.quantity}}</td>
         <td><i class='bx bx-edit-alt'></i></td>
     </tr>
 </table>

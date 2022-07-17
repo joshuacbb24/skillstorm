@@ -9,6 +9,7 @@
         <th>Stock</th>
         <th>Capacity</th>
         <th>Edit</th>
+        <th>Star</th>
     </tr>
     <tr *ngFor="let warehouse of warehouses">
         <td>{{warehouse.name}}</td>
@@ -16,6 +17,9 @@
         <td>{{warehouse.stock}}</td>
         <td>{{warehouse.capacity}}</td>
         <td><i class='bx bx-edit-alt' [attr.data-warehouse-id]="warehouse.id"></i></td>
+        <td *ngIf="warehouse.favorited == 0;"><i class='bx bx-star' [attr.data-warehouse-id]="warehouse.id"></i></td>
+        <td *ngIf="warehouse.favorited == 1;"><i class='bx bxs-star filled' [attr.data-warehouse-id]="warehouse.id"></i></td>
+
     </tr>
 </table>
 </div>

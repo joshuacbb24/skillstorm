@@ -22,3 +22,6 @@ table {
   table i{
     cursor: pointer;
   }
+  table tr td i .star{
+    width: 50px;
+  }

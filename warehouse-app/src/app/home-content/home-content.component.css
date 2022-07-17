@@ -82,27 +82,42 @@
 
 }
 .home-content .sales-boxes .top-sales.box {
-    overflow-y: scroll;
+    overflow-y: hidden;
 
 }
-.home-content .sales-boxes .top-sales.box a{
-text-decoration: none;
-color: #000;
-font-size: 25px;
-font-weight: 500;
+.home-content .sales-boxes .top-sales.box .sales-details{
+    overflow-y: scroll;
+    height: 400px;
 }
+.home-content .sales-boxes .top-sales.box span{
+    text-decoration: none;
+    color: #000;
+    white-space: wrap;
+    overflow: hidden;
+    text-overflow: ellipsis;
+    margin: 0 10px;
+    width: 280px;
+}
+.home-content .sales-boxes .top-sales.box img{
+    height: 40px;
+    width: 40px;
+    object-fit: cover;
+    border-radius: 6px;
+}
+
 .home-content .sales-boxes .top-sales.box .title {
     font-size: 24px;
     font-weight: 500;
-    padding: 20px 20px 20px 6px;
+    padding: 20px 20px 20px 0px;
+}
+.home-content .sales-boxes .top-sales.box .sales-details .details li{
+    display: flex;
+    margin: 0 0 10px 0;
+    font-size: 15px;
+    font-weight: 500;
+    align-items: center;
 
 }
-
-.home-content .sales-boxes .top-sales.box .sales-details .details {
-    margin: 10px;
-
-}
-
 .home-content .sales-boxes .recent-sale {
     width: 65%;
     background: #fff;
@@ -121,7 +136,7 @@ font-weight: 500;
 }
 
 .sales-boxes .top-sales.box .sales-details ul {
-    list-style-type: none !important;
+    list-style-type: none;
     padding: 0;
     margin: 0;
 }

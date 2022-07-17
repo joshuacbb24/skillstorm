@@ -80,7 +80,9 @@ nav .profile-details .admin_name{
     color: #333;
     margin: 0 10px;
     white-space: nowrap;
-    width: 105px
+    width: 105px;
+    overflow: hidden;
+    text-overflow: ellipsis;
 }
 nav .profile-details i{
     color: #333;

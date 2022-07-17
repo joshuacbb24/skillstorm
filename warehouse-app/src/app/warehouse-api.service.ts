@@ -14,8 +14,14 @@ export class WarehouseApiService {
     this.http = http;
   }
 
-  findAllWarehouses() :Observable<any> {
+  findfavoriteWareshouses() :Observable<any> {
     return this.http.get(environment.apiUrl + 'home');
+  }
+  findAllWarehouses() :Observable<any> {
+    return this.http.get(environment.apiUrl + 'warehouse');
+  }
+  getInventory() :Observable<any> {
+    return this.http.get(environment.apiUrl + 'inventory');
   }
   getRecentActivity() :Observable<any> {
     return this.http.get(environment.apiUrl + 'Activity-list');

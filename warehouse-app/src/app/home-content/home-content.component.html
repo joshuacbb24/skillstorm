@@ -23,7 +23,7 @@
           <tbody>
             <tr *ngFor="let warehouse of warehouses">
               <th scope="row"> {{warehouse.name}}</th>
-              <td> {{warehouse.stock / warehouse.capacity}} </td>
+              <td style="--size: {{warehouse.stock / warehouse.capacity}}"> {{warehouse.stock / warehouse.capacity}} </td>
             </tr>
           </tbody>
         </table>
@@ -35,7 +35,9 @@
       <div class="sales-details">
         <ul class="details">
           <li *ngFor="let action of actions">
-            <a href="#">{{action.action + " by " + action.account}}</a>
+            <img src="/assets/images/514-5147412_default-avatar-icon.png">
+            <span>{{action.action + " by " + action.account}}</span>
+            <i></i>
           </li>
         </ul>
       </div>

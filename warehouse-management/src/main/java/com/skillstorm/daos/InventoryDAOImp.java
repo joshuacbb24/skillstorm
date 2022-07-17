@@ -11,6 +11,7 @@ import java.util.List;
 
 import com.skillstorm.conf.WarehouseDbCreds;
 import com.skillstorm.models.Inventory;
+import com.skillstorm.models.Warehouse;
 
 public class InventoryDAOImp implements InventoryDAO{
 
@@ -27,7 +28,7 @@ public class InventoryDAOImp implements InventoryDAO{
 
 	@Override
 	public Inventory findById(int id) {
-		String sql = "select * from inventory where item_id = " + id;
+		String sql = "select building.building_id, building.building_name as building_name, inventory.item_id, inventory.item_name, inventory.quantity, inventory.date_added from inventory inner join building on building.building_id = inventory.building_id where inventory.item_id = " + id;
 		
 		try {
 			Connection conn = DriverManager.getConnection(creds.getUrl(), creds.getUsername(), creds.getPassword());
@@ -35,7 +36,7 @@ public class InventoryDAOImp implements InventoryDAO{
 			Statement stmt = conn.createStatement();
 			ResultSet rs = stmt.executeQuery(sql);
 			if (rs.next()) {
-				return new Inventory(rs.getInt("item_id"), rs.getInt("building_id"), rs.getString("item_name"), rs.getString("path"), rs.getInt("quantity"));
+				return new Inventory(rs.getInt("item_id"), rs.getInt("building_id"), rs.getString("building_name"), rs.getString("item_name"), rs.getInt("quantity"), rs.getString("date_added"));
 			}
 			
 			
@@ -74,7 +75,7 @@ public class InventoryDAOImp implements InventoryDAO{
 
 	@Override
 	public List<Inventory> findInvByBuildingId(int id) {
-		String sql = "select * from inventory where building_id = " + id;
+		String sql = "select building.building_id, building.building_name as building_name, inventory.item_id, inventory.item_name, inventory.quantity, inventory.date_added from inventory inner join building on building.building_id = inventory.building_id where building.building_id = " + id;
 		try {
 			Connection conn = DriverManager.getConnection(creds.getUrl(), creds.getUsername(), creds.getPassword());
 			
@@ -87,8 +88,33 @@ public class InventoryDAOImp implements InventoryDAO{
 			// You need to advance the cursor with it so that you can parse all of the results
 			while(rs.next()) {
 				// looping over rows
-				Inventory Inventory = new Inventory(rs.getInt("item_id"), rs.getInt("building_id"), rs.getString("item_name"), rs.getString("path"), rs.getInt("quantity"));
+				Inventory Inventory = new Inventory(rs.getInt("item_id"), rs.getInt("building_id"), rs.getString("building_name"), rs.getString("item_name"), rs.getInt("quantity"), rs.getString("date_added"));
 				Inventorys.add(Inventory);
+			}
+			
+			return Inventorys;
+			
+		} catch (SQLException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
+		return null;
+	}
+
+	@Override
+	public List<Inventory> findAll() {
+		String sql = "select building.building_id, building.building_name as building_name, inventory.item_id, inventory.item_name, inventory.quantity, inventory.date_added from inventory inner join building on building.building_id = inventory.building_id";
+		
+		try {
+			Connection conn = DriverManager.getConnection(creds.getUrl(), creds.getUsername(), creds.getPassword());
+			
+			Statement stmt = conn.createStatement();
+			ResultSet rs = stmt.executeQuery(sql);
+			
+			LinkedList<Inventory> Inventorys = new LinkedList<>();
+			while (rs.next()) {
+				Inventory inventory = new Inventory(rs.getInt("item_id"), rs.getInt("building_id"), rs.getString("building_name"), rs.getString("item_name"), rs.getInt("quantity"), rs.getString("date_added"));
+				Inventorys.add(inventory);
 			}
 			
 			return Inventorys;

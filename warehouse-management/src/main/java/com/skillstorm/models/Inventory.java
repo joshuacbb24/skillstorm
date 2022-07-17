@@ -4,9 +4,10 @@ public class Inventory {
 
 	private int id;
 	private int buildingId;
+	private String buildingName;
 	private String name;
-	private String path;
 	private int quantity;
+	private String date;
 	
 	
 	public Inventory() {
@@ -14,13 +15,24 @@ public class Inventory {
 	}
 
 
-	public Inventory(int id, int buildingId, String name, String path, int quantity) {
+	public Inventory(int id, int buildingId, String buildingName, String name, int quantity) {
 		super();
 		this.id = id;
 		this.buildingId = buildingId;
+		this.buildingName = buildingName;
 		this.name = name;
-		this.path = path;
 		this.quantity = quantity;
+	}
+
+
+	public Inventory(int id, int buildingId, String buildingName, String name, int quantity, String date) {
+		super();
+		this.id = id;
+		this.buildingId = buildingId;
+		this.buildingName = buildingName;
+		this.name = name;
+		this.quantity = quantity;
+		this.date = date;
 	}
 
 
@@ -64,21 +76,36 @@ public class Inventory {
 	}
 
 
-	public String getPath() {
-		return path;
+	public String getDate() {
+		return date;
 	}
 
 
-	public void setPath(String path) {
-		this.path = path;
+	public void setDate(String date) {
+		this.date = date;
+	}
+
+
+	public String getBuildingName() {
+		return buildingName;
+	}
+
+
+	public void setBuildingName(String buildingName) {
+		this.buildingName = buildingName;
 	}
 
 
 	@Override
 	public String toString() {
-		return "Inventory [id=" + id + ", buildingId=" + buildingId + ", name=" + name + ", path=" + path
-				+ ", quantity=" + quantity + "]";
+		return "Inventory [id=" + id + ", buildingId=" + buildingId + ", buildingName=" + buildingName + ", name="
+				+ name + ", quantity=" + quantity + ", date=" + date + "]";
 	}
+
+
+
+	
+
 
 	
 

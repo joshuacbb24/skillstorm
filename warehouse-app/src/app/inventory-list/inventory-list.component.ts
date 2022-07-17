@@ -1,4 +1,6 @@
 import { Component, OnInit } from '@angular/core';
+import { WarehouseApiService } from '../warehouse-api.service';
+
 
 @Component({
   selector: 'app-inventory-list',
@@ -7,9 +9,20 @@ import { Component, OnInit } from '@angular/core';
 })
 export class InventoryListComponent implements OnInit {
 
-  constructor() { }
+  
+  service :WarehouseApiService;
+  inventory :Array<any> = [];
+
+  constructor(service :WarehouseApiService) {
+    this.service = service;
+  }
+
 
   ngOnInit(): void {
+    this.service.getInventory().subscribe(data => {
+      this.inventory = data
+      console.log(this.inventory)
+    });
   }
 
 }
