@@ -1,1 +1,21 @@
-<p>warehouse-list works!</p>
+<div class="warehouse-content">
+    <div class="table-header">
+<h2>Warehouse Table</h2>
+</div>
+<table>
+    <tr>
+        <th>Name</th>
+        <th>Address</th>
+        <th>Stock</th>
+        <th>Capacity</th>
+        <th>Edit</th>
+    </tr>
+    <tr *ngFor="let warehouse of warehouses">
+        <td>{{warehouse.name}}</td>
+        <td>Philadelphia, PA</td>
+        <td>{{warehouse.stock}}</td>
+        <td>{{warehouse.capacity}}</td>
+        <td><i class='bx bx-edit-alt' [attr.data-warehouse-id]="warehouse.id"></i></td>
+    </tr>
+</table>
+</div>

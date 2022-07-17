@@ -1,98 +1,48 @@
 <div class="home-content">
-    <div class="overview-boxes">
-        <div class="box">
-            <div class="left-side">
-                <div class="box_topic">Order List</div>
-                <div class="number">40,876</div>
-                <div class="indicator">
-                    <i class="bx bx-up-arrow-alt"></i>
-                    <span class="text">Up from yesterday</span>
-                </div>
-            </div>
-            <i class='bx bxs-cart-alt cart'></i>
+  <div class="overview-boxes">
+    <div class="box" *ngFor="let warehouse of warehouses">
+      <div class="left-side">
+        <div class="box_topic">{{warehouse.name}}</div>
+        <div class="number">{{warehouse.stock}}</div>
+        <div class="indicator">
+          <i class="bx bx-up-arrow-alt"></i>
+          <span class="text">Up from yesterday</span>
         </div>
-        <div class="box">
-            <div class="left-side">
-                <div class="box_topic">Order List</div>
-                <div class="number">40,876</div>
-                <div class="indicator">
-                    <i class="bx bx-up-arrow-alt"></i>
-                    <span class="text">Up from yesterday</span>
-                </div>
-            </div>
-            <i class='bx bxs-cart-alt cart'></i>
-        </div>
-        <div class="box">
-            <div class="left-side">
-                <div class="box_topic">Order List</div>
-                <div class="number">40,876</div>
-                <div class="indicator">
-                    <i class="bx bx-up-arrow-alt"></i>
-                    <span class="text">Up from yesterday</span>
-                </div>
-            </div>
-            <i class='bx bxs-cart-alt cart'></i>
-        </div>
-        <div class="box">
-            <div class="left-side">
-                <div class="box_topic">Order List</div>
-                <div class="number">40,876</div>
-                <div class="indicator">
-                    <i class="bx bx-up-arrow-alt"></i>
-                    <span class="text">Up from yesterday</span>
-                </div>
-            </div>
-            <i class='bx bxs-cart-alt cart'></i>
-        </div>
+      </div>
+      <i class='bx bxs-cart-alt cart'></i>
     </div>
-    <table class="charts-css bar show-heading show-labels show-primary-axis show-data-axes">
+  </div>
 
-        <caption> Current Stock of Warehouses </caption>
-      <!--
-        <thead>
-          <tr>
-            <th scope="col"> Country </th>
-            <th scope="col"> Gold </th>
-            <th scope="col"> Silver </th>
-            <th scope="col"> Bronze </th>
-          </tr>
-        </thead>
-      -->
-        <tbody>
-          <tr>
-            <th scope="row"> Warehouse A</th>
-            <td> 46 </td>
-          </tr>
-          <tr>
-            <th scope="row">Warehouse B</th>
-            <td> 27 </td>
-          </tr>
-          <tr>
-            <th scope="row">Warehouse C</th>
-            <td> 26 </td>
-          </tr>
-          <tr>
-            <th scope="row">Warehouse D</th>
-            <td> 26 </td>
-          </tr>
-        </tbody>
-      
-      </table>
-    <!--
-    <div class="sales-boxes">
-        <div class="recent-sale box">
-            <div class="title">Recent Sales</div>
-            <div class="sales-details">
-                <ul class="details">
-                    <li><a href="#">Date</a></li>
-                    <li><a href="#">02 Jan 2020</a></li>
-                    <li><a href="#">02 Jan 2020</a></li>
-                    <li><a href="#">02 Jan 2020</a></li>
-                    <li><a href="#">02 Jan 2020</a></li>
-                    <li><a href="#">02 Jan 2020</a></li>
-                    <li><a href="#">02 Jan 2020</a></li>
-                </ul>
-            </div>
-        </div>
-    </div>-->
+
+  <div class="sales-boxes">
+    <div class="recent-sale box">
+      <div class="title">Current Stock of Warehouses</div>
+      <div class="sales-details">
+        <table class="charts-css bar show-heading show-labels show-primary-axis show-data-axes">
+          <caption> Current Stock of Warehouses </caption>
+          <tbody>
+            <tr *ngFor="let warehouse of warehouses">
+              <th scope="row"> {{warehouse.name}}</th>
+              <td> {{warehouse.stock / warehouse.capacity}} </td>
+            </tr>
+          </tbody>
+        </table>
+      </div>
+    </div>
+    <!--right side-->
+    <div class="top-sales box">
+      <div class="title">Recent Activity</div>
+      <div class="sales-details">
+        <ul class="details">
+          <li><a href="#">Date</a></li>
+          <li><a href="#">02 Jan 2020</a></li>
+          <li><a href="#">02 Jan 2020</a></li>
+          <li><a href="#">02 Jan 2020</a></li>
+          <li><a href="#">02 Jan 2020</a></li>
+          <li><a href="#">02 Jan 2020</a></li>
+          <li><a href="#">02 Jan 2020</a></li>
+        </ul>
+      </div>
+    </div>
+  </div>
 </div>

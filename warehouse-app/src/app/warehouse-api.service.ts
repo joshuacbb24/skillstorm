@@ -15,7 +15,7 @@ export class WarehouseApiService {
   }
 
   findAllWarehouses() :Observable<any> {
-    return this.http.get(environment.apiUrl);
+    return this.http.get(environment.apiUrl + 'home');
   }
 
   

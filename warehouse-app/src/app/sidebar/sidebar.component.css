@@ -8,6 +8,9 @@
 .sidebar.active{
     width: 60px;
 }
+.sidebar a.active{
+    background: #081D45;
+}
 .sidebar ul{
     margin-left: 0;
     padding-left: 0;

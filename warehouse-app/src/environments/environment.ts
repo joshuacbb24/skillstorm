@@ -4,7 +4,7 @@
 
 export const environment = {
   production: false,
-  apiUrl: 'http://localhost:8080/home/'
+  apiUrl: 'http://localhost:8080/hello-web/'
 };
 
 /*

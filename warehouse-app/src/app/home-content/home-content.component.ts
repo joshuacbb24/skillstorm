@@ -1,4 +1,5 @@
 import { Component, OnInit } from '@angular/core';
+import { WarehouseApiService } from '../warehouse-api.service';
 
 @Component({
   selector: 'app-home-content',
@@ -7,9 +8,19 @@ import { Component, OnInit } from '@angular/core';
 })
 export class HomeContentComponent implements OnInit {
 
-  constructor() { }
+  service :WarehouseApiService;
+  warehouses :Array<any> = [];
+  //arrayLength :number = 0;
 
-  ngOnInit(): void {
+  constructor(service :WarehouseApiService) {
+    this.service = service;
   }
 
+  ngOnInit(): void {
+    this.service.findAllWarehouses().subscribe(data => {
+      this.warehouses = data
+      console.log(this.warehouses)
+    });
+    
+  }
 }

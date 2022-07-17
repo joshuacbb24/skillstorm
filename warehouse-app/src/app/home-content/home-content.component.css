@@ -1,17 +1,19 @@
-.home-content{
-    
+.home-content {
     padding-top: 100px;
-
 }
-.home-content .overview-boxes{
+
+.home-content .overview-boxes {
+
     display: flex;
-    /*width: 100%;*/
     justify-content: space-between;
     padding: 0 20px;
     height: 150px;
-
+    /*overflow: hidden;
+    flex-wrap: wrap;
+    position: relative;*/
 }
-.home-content .overview-boxes .box{
+
+.home-content .overview-boxes .box {
     width: calc(100% / 4 - 45px);
     display: flex;
     align-items: center;
@@ -19,23 +21,28 @@
     padding: 15px 14px;
     background: #fff;
     border-radius: 12px;
+    box-shadow: 0 5px 10px rgba(0, 0, 0, 0.1);
 }
-.home-content .overview-boxes .box_topice{
+
+.home-content .overview-boxes .box_topice {
     font-size: 20px;
     font-weight: 500;
 }
-.home-content .overview-boxes .number{
+
+.home-content .overview-boxes .number {
     font-size: 35px;
     font-weight: 500;
     margin-top: -5px;
     display: inline-block;
 
 }
-.overview-boxes .indicator{
+
+.overview-boxes .indicator {
     display: flex;
     align-items: center;
 }
-.overview-boxes .indicator i{
+
+.overview-boxes .indicator i {
     height: 20px;
     width: 20px;
     background: #8FDACB;
@@ -44,10 +51,12 @@
     font-size: 20px;
     margin-right: 5px;
 }
-.overview-boxes .indicator .text{
+
+.overview-boxes .indicator .text {
     font-size: 12px;
 }
-.overview-boxes .box .cart{
+
+.overview-boxes .box .cart {
     font-size: 32px;
     font-weight: 500;
     height: 50px;
@@ -58,11 +67,60 @@
     text-align: center;
     border-radius: 12px;
 }
-.sales-boxes .recent-sale.box .title .sales-details .details{
-    list-style-type: none;
+
+.home-content .sales-boxes {
+    display: flex;
+    justify-content: space-between;
+    padding: 20px;
+    height: 520px;
+}
+
+.home-content .sales-boxes .recent-sale.box .title {
+    font-size: 24px;
+    font-weight: 500;
+    padding: 20px 20px 100px 6px;
+
+}
+
+.home-content .sales-boxes .top-sales.box .title {
+    font-size: 24px;
+    font-weight: 500;
+    padding: 20px 20px 20px 6px;
+
+}
+
+.home-content .sales-boxes .top-sales.box .sales-details .details {
+    margin: 10px;
+
+}
+
+.home-content .sales-boxes .recent-sale {
+    width: 65%;
+    background: #fff;
+    border-radius: 12px;
+    box-shadow: 0 5px 10px rgba(0, 0, 0, 0.1);
+    padding: 20px;
+}
+
+.home-content .sales-boxes .top-sales {
+    width: 35%;
+    margin-left: 20px;
+    padding: 20px;
+    background: #fff;
+    border-radius: 12px;
+    box-shadow: 0 5px 10px rgba(0, 0, 0, 0.1);
+}
+
+.sales-boxes .top-sales.box .sales-details ul {
+    list-style-type: none !important;
     padding: 0;
     margin: 0;
 }
+
 .charts-css.bar.show-labels {
     --labels-size: 119px;
+}
+
+table.charts-css {
+    /*padding: 87px 0;*/
 }
