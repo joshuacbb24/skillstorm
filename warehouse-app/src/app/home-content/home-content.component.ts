@@ -10,6 +10,7 @@ export class HomeContentComponent implements OnInit {
 
   service :WarehouseApiService;
   warehouses :Array<any> = [];
+  actions :Array<any> = [];
   //arrayLength :number = 0;
 
   constructor(service :WarehouseApiService) {
@@ -21,6 +22,9 @@ export class HomeContentComponent implements OnInit {
       this.warehouses = data
       console.log(this.warehouses)
     });
-    
+    this.service.getRecentActivity().subscribe(data => {
+      this.actions = data
+      console.log(this.actions)
+    });
   }
 }

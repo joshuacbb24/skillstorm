@@ -34,13 +34,9 @@
       <div class="title">Recent Activity</div>
       <div class="sales-details">
         <ul class="details">
-          <li><a href="#">Date</a></li>
-          <li><a href="#">02 Jan 2020</a></li>
-          <li><a href="#">02 Jan 2020</a></li>
-          <li><a href="#">02 Jan 2020</a></li>
-          <li><a href="#">02 Jan 2020</a></li>
-          <li><a href="#">02 Jan 2020</a></li>
-          <li><a href="#">02 Jan 2020</a></li>
+          <li *ngFor="let action of actions">
+            <a href="#">{{action.action + " by " + action.account}}</a>
+          </li>
         </ul>
       </div>
     </div>

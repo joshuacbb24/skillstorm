@@ -81,7 +81,16 @@
     padding: 20px 20px 100px 6px;
 
 }
+.home-content .sales-boxes .top-sales.box {
+    overflow-y: scroll;
 
+}
+.home-content .sales-boxes .top-sales.box a{
+text-decoration: none;
+color: #000;
+font-size: 25px;
+font-weight: 500;
+}
 .home-content .sales-boxes .top-sales.box .title {
     font-size: 24px;
     font-weight: 500;
