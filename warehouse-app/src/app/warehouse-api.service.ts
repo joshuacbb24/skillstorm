@@ -14,6 +14,9 @@ export class WarehouseApiService {
     this.http = http;
   }
 
+  saveItem(item :any) :Observable<any> {
+    return this.http.post(environment.apiUrl, item);
+  }
   findfavoriteWareshouses() :Observable<any> {
     return this.http.get(environment.apiUrl + 'home');
   }

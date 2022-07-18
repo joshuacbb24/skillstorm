@@ -11,6 +11,7 @@ export class HomeContentComponent implements OnInit {
   service :WarehouseApiService;
   warehouses :Array<any> = [];
   actions :Array<any> = [];
+
   //arrayLength :number = 0;
 
   constructor(service :WarehouseApiService) {

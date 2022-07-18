@@ -51,13 +51,43 @@ public class InventoryDAOImp implements InventoryDAO{
 	@Override
 	public Inventory save(Inventory inventory) {
 		String sql = "insert into inventory (building_id, item_name, quantity, date_added) values (" + inventory.getBuildingId() + "," + inventory.getName() + "," + inventory.getQuantity() + "," + inventory.getDate() + ")";
+		String sql = "INSERT INTO Artist (ArtistId, Name) VALUES (?, ?)";
+		try (Connection conn = ChinookDbCreds.getInstance().getConnection()) {
+			
+			// Start a transaction
+			conn.setAutoCommit(false); // Prevents each query from immediately altering the database
+			
+			// Obtain auto incremented values like so
+			PreparedStatement ps = conn.prepareStatement(sql, Statement.RETURN_GENERATED_KEYS);
+			ps.setInt(1, artist.getId());
+			ps.setString(2, artist.getName());
+			
+			int rowsAffected = ps.executeUpdate(); // If 0 is returned, my data didn't save
+			if (rowsAffected != 0) {
+				// If I want my keys do this code
+				ResultSet keys = ps.getGeneratedKeys();
+				// List a of all generated keys
+//				if (keys.next()) {
+//					int key = keys.getInt(1); // Give me the auto generated key
+//					artist.setId(key);
+//					return artist;
+//				}
+				conn.commit(); // Executes ALL queries in a given transaction. Green button
+				return artist;
+			} else {
+				conn.rollback(); // Undoes any of the queries. Database pretends those never happened
+			}
+			
+		} catch (SQLException e) {
+			e.printStackTrace();
+		}
+		
 		return null;
 	}
 
 	@Override
 	public void update(Inventory inventory) {
 		String sql = "update inventory set item_name = " + inventory.getName() + "," + inventory.getQuantity() + "," + inventory.getDate() + "where item_id = " + inventory.getId();
-		
 	}
 
 

@@ -12,6 +12,8 @@ export class InventoryListComponent implements OnInit {
   
   service :WarehouseApiService;
   inventory :Array<any> = [];
+  item :any = {}
+
 
   constructor(service :WarehouseApiService) {
     this.service = service;
