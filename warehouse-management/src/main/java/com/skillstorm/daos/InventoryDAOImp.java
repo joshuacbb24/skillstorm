@@ -50,17 +50,21 @@ public class InventoryDAOImp implements InventoryDAO{
 
 	@Override
 	public Inventory save(Inventory inventory) {
-		String sql = "insert into inventory (building_id, item_name, quantity, date_added) values (" + inventory.getBuildingId() + "," + inventory.getName() + "," + inventory.getQuantity() + "," + inventory.getDate() + ")";
-		String sql = "INSERT INTO Artist (ArtistId, Name) VALUES (?, ?)";
-		try (Connection conn = ChinookDbCreds.getInstance().getConnection()) {
+		String sql = "insert into inventory (building_id, item_name, quantity, date_added) values (?, ?, ?, ?)";
+		
+		try {
+			Connection conn = DriverManager.getConnection(creds.getUrl(), creds.getUsername(), creds.getPassword());
 			
 			// Start a transaction
 			conn.setAutoCommit(false); // Prevents each query from immediately altering the database
 			
 			// Obtain auto incremented values like so
 			PreparedStatement ps = conn.prepareStatement(sql, Statement.RETURN_GENERATED_KEYS);
-			ps.setInt(1, artist.getId());
-			ps.setString(2, artist.getName());
+			ps.setInt(1, inventory.getBuildingId());
+			ps.setString(2, inventory.getName());
+			ps.setInt(3, inventory.getQuantity());
+			ps.setString(4, inventory.getDate());
+			
 			
 			int rowsAffected = ps.executeUpdate(); // If 0 is returned, my data didn't save
 			if (rowsAffected != 0) {
@@ -73,7 +77,7 @@ public class InventoryDAOImp implements InventoryDAO{
 //					return artist;
 //				}
 				conn.commit(); // Executes ALL queries in a given transaction. Green button
-				return artist;
+				return null;
 			} else {
 				conn.rollback(); // Undoes any of the queries. Database pretends those never happened
 			}
@@ -87,25 +91,71 @@ public class InventoryDAOImp implements InventoryDAO{
 
 	@Override
 	public void update(Inventory inventory) {
-		String sql = "update inventory set item_name = " + inventory.getName() + "," + inventory.getQuantity() + "," + inventory.getDate() + "where item_id = " + inventory.getId();
+		String sql = "update inventory set item_name = ? , quantity = ?, date_added =  ? where item_id = ?";
+		
+		try {
+			Connection conn = DriverManager.getConnection(creds.getUrl(), creds.getUsername(), creds.getPassword());
+			
+			// Start a transaction
+			conn.setAutoCommit(false); // Prevents each query from immediately altering the database
+			
+			// Obtain auto incremented values like so
+			PreparedStatement ps = conn.prepareStatement(sql, Statement.RETURN_GENERATED_KEYS);
+			ps.setString(1, inventory.getName());
+			ps.setInt(2, inventory.getQuantity());
+			ps.setString(3, inventory.getDate());
+			ps.setInt(4, inventory.getId());
+			
+			int rowsAffected = ps.executeUpdate(); // If 0 is returned, my data didn't save
+			if (rowsAffected != 0) {
+				// If I want my keys do this code
+				ResultSet keys = ps.getGeneratedKeys();
+				// List a of all generated keys
+//				if (keys.next()) {
+//					int key = keys.getInt(1); // Give me the auto generated key
+//					artist.setId(key);
+//					return artist;
+//				}
+				conn.commit(); // Executes ALL queries in a given transaction. Green button
+			} else {
+				conn.rollback(); // Undoes any of the queries. Database pretends those never happened
+			}
+			
+		} catch (SQLException e) {
+			e.printStackTrace();
+		}
+		
 	}
 
 
 	@Override
 	public void delete(int id) {
-		String sql = "delete FROM inventory where item_id = " + id;
+		String sql = "delete FROM inventory where item_id = ?";
 		
 		try {
 			Connection conn = DriverManager.getConnection(creds.getUrl(), creds.getUsername(), creds.getPassword());
+
+			// Start a transaction
+			conn.setAutoCommit(false); // Prevents each query from immediately altering the database
 			
-			Statement stmt = conn.createStatement();
-			ResultSet rs = stmt.executeQuery(sql);
-			/*
-			if (rs.next()) {
-				return new Inventory(rs.getInt("item_id"), rs.getInt("building_id"), rs.getString("building_name"), rs.getString("item_name"), rs.getInt("quantity"), rs.getString("date_added"));
+			// Obtain auto incremented values like so
+			PreparedStatement ps = conn.prepareStatement(sql, Statement.RETURN_GENERATED_KEYS);
+			ps.setInt(1, id);
+			
+			int rowsAffected = ps.executeUpdate(); // If 0 is returned, my data didn't save
+			if (rowsAffected != 0) {
+				// If I want my keys do this code
+				ResultSet keys = ps.getGeneratedKeys();
+				// List a of all generated keys
+//				if (keys.next()) {
+//					int key = keys.getInt(1); // Give me the auto generated key
+//					artist.setId(key);
+//					return artist;
+//				}
+				conn.commit(); // Executes ALL queries in a given transaction. Green button
+			} else {
+				conn.rollback(); // Undoes any of the queries. Database pretends those never happened
 			}
-			*/
-			
 			
 		} catch (SQLException e) {
 			// TODO Auto-generated catch block
