@@ -11,7 +11,7 @@ public interface InventoryDAO {
 	public Inventory findById(int id);
 	public List<Inventory> findInvByBuildingId(int id);
 	public List<Inventory> findAll();
-	//public Artist findByName(String name);
+	//public Inventory findByName(String name);
 	public Inventory save(Inventory item);
 	public void update(Inventory item); // contains the id and updates as needed
 	//public void delete(Inventory item);

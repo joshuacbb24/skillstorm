@@ -49,22 +49,38 @@ public class InventoryDAOImp implements InventoryDAO{
 	}
 
 	@Override
-	public Inventory save(Inventory Inventory) {
-		// TODO Auto-generated method stub
+	public Inventory save(Inventory inventory) {
+		String sql = "insert into inventory (building_id, item_name, quantity, date_added) values (" + inventory.getBuildingId() + "," + inventory.getName() + "," + inventory.getQuantity() + "," + inventory.getDate() + ")";
 		return null;
 	}
 
 	@Override
-	public void update(Inventory Inventory) {
-		// TODO Auto-generated method stub
+	public void update(Inventory inventory) {
+		String sql = "update inventory set item_name = " + inventory.getName() + "," + inventory.getQuantity() + "," + inventory.getDate() + "where item_id = " + inventory.getId();
 		
 	}
 
 
 	@Override
 	public void delete(int id) {
-		// TODO Auto-generated method stub
+		String sql = "delete FROM inventory where item_id = " + id;
 		
+		try {
+			Connection conn = DriverManager.getConnection(creds.getUrl(), creds.getUsername(), creds.getPassword());
+			
+			Statement stmt = conn.createStatement();
+			ResultSet rs = stmt.executeQuery(sql);
+			/*
+			if (rs.next()) {
+				return new Inventory(rs.getInt("item_id"), rs.getInt("building_id"), rs.getString("building_name"), rs.getString("item_name"), rs.getInt("quantity"), rs.getString("date_added"));
+			}
+			*/
+			
+			
+		} catch (SQLException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
 	}
 
 	@Override
