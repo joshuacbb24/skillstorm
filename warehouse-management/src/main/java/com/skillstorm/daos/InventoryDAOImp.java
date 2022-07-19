@@ -199,7 +199,7 @@ public class InventoryDAOImp implements InventoryDAO{
 
 	@Override
 	public List<Inventory> findAll() {
-		String sql = "select building.building_id, building.building_name as building_name, inventory.item_id, inventory.item_name, inventory.quantity, inventory.date_added from inventory inner join building on building.building_id = inventory.building_id";
+		String sql = "select building.building_id, building.building_name as building_name, inventory.item_id, inventory.item_name, inventory.quantity, inventory.date_added from inventory inner join building on building.building_id = inventory.building_id ORDER BY building_name, inventory.item_name;";
 		
 		try {
 			Connection conn = DriverManager.getConnection(creds.getUrl(), creds.getUsername(), creds.getPassword());

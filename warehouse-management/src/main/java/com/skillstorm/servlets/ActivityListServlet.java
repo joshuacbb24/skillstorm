@@ -14,7 +14,7 @@ import com.skillstorm.daos.ActionsDAO;
 import com.skillstorm.daos.ActionsDAOImp;
 import com.skillstorm.models.Action;
 
-@WebServlet(urlPatterns = "/Activity-list")
+@WebServlet(urlPatterns = "/activity-list")
 public class ActivityListServlet extends HttpServlet {
 	
 	@Override

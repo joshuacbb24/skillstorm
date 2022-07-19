@@ -1,21 +1,95 @@
 <div class="inventory-content">
     <div class="table-header">
-<h2>Inventory Table</h2>
+        <h2>Inventory Table</h2>
+    </div>
+    <div class="table-container">
+    <table class="styled-table">
+        <thead>
+            <tr>
+                <th>Name</th>
+                <th>Date</th>
+                <th>Building</th>
+                <th>Quantity</th>
+                <th>Edit</th>
+            </tr>
+        </thead>
+        
+        <tbody>
+            <div class="table-div">
+            <tr *ngFor="let item of inventory">
+                <td style="width: 250px;">{{item.name}}</td>
+                <td style="width: 256px;">{{item.date}}</td>
+                <td style="width: 248px;">{{item.buildingName}}</td>
+                <td style="width: 260px;">{{item.quantity}}</td>
+                <td style="width: 240px;"><i class='bx bx-edit-alt' [attr.data-item-id]="item.id" [attr.data-warehouse-id]="item.id"
+                        (click)="revealEditForm($event, true)"></i></td>
+            </tr>
+        </div>
+        </tbody>
+    
+    </table>
 </div>
-<table>
-    <tr>
-        <th>Name</th>
-        <th>Date</th>
-        <th>Building</th>
-        <th>Quantity</th>
-        <th>Edit</th>
-    </tr>
-    <tr *ngFor="let item of inventory">
-        <td>{{item.name}}</td>
-        <td>{{item.date}}</td>
-        <td>{{item.buildingName}}</td>
-        <td>{{item.quantity}}</td>
-        <td><i class='bx bx-edit-alt'></i></td>
-    </tr>
-</table>
+</div>
+<div class="modal" [hidden]="modalHidden">
+    <form class="modal-content edit" [hidden]="isEditFormHidden">
+        <span class="close" title="Close Modal" (click)="revealEditForm($event, false)">&times;</span>
+        <div class="row">
+            <div class="column">
+                <label class="form-label" for="item-name">Item Name:</label>
+                <input type="text" class="item-name" name="item-name" maxlength="45">
+            </div>
+        </div>
+        <div class="row">
+            <div class="column">
+                <label class="form-label" for="building">Building Name:</label>
+                <select name="building-id" (onchange)="handleSelect()" required disabled>
+                    <option [value]="warehouseId" [ngModel]="warehouses">{{warehouses[warehouseId].name}}</option>
+                </select>
+            </div>
+        </div>
+        <div class="row">
+            <div class="column">
+                <label class="form-label" for="quantity">Quantity:</label>
+                <input type="text" pattern="^[1-9][0-9]*$" class="quantity" name="quantity" [(ngModel)]="quantity"
+                    oninput="if(!this.value.match('^[1-9][0-9]*$'))this.value='';" required>
+            </div>
+        </div>
+        <div class="row">
+            <div class="column">
+                <label class="form-label" for="date">Date:</label>
+                <input type="text" class="date" name="date" [ngModel]="date" required disabled>
+            </div>
+        </div>
+    </form>
+
+    <form class="modal-content create" [hidden]="isCreateFormHidden">
+        <span class="close" title="Close Modal" (click)="revealCreateForm()">&times;</span>
+        <div class="row">
+            <div class="column">
+                <label class="form-label" for="item-name">Item Name:</label>
+                <input type="text" class="item-name" name="item-name" maxlength="45">
+            </div>
+        </div>
+        <div class="row">
+            <div class="column">
+                <label class="form-label" for="building">Building Name:</label>
+                <select name="building-id" id="select1" (onchange)="handleSelect()" required>
+                    <option [value]="warehouse.id" *ngFor="let warehouse of warehouses">{{warehouse.name}}</option>
+                </select>
+            </div>
+        </div>
+        <div class="row">
+            <div class="column">
+                <label class="form-label" for="quantity">Quantity:</label>
+                <input type="text" pattern="^[1-9][0-9]*$" class="quantity" name="quantity" [(ngModel)]="quantity"
+                    oninput="if(!this.value.match('^[1-9][0-9]*$'))this.value='';" required>
+            </div>
+        </div>
+        <div class="row">
+            <div class="column">
+                <label class="form-label" for="date">Date:</label>
+                <input type="text" class="date" name="date" [ngModel]="date" required disabled>
+            </div>
+        </div>
+    </form>
 </div>

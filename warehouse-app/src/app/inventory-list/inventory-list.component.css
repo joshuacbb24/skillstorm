@@ -1,24 +1,131 @@
-.inventory-content{
-    padding: 100px 20px 0 20px;
+.inventory-content {
+  padding: 100px 20px 0 20px;
 }
-.table-header{
-    display: flex;
+
+.table-header {
+  display: flex;
 }
-table {
-    font-family: arial, sans-serif;
-    border-collapse: collapse;
-    width: 100%;
-  }
-  
-  td, th {
-    border: 1px solid #dddddd;
-    text-align: left;
-    padding: 8px;
-  }
-  
-  tr:nth-child(even) {
-    background-color: #dddddd;
-  }
-  table i{
-    cursor: pointer;
-  }
+.table-div{
+  position: relative;
+  max-height: 550px;
+  overflow-y: scroll;
+  width: 1256PX;
+}
+.styled-table {
+  table-layout:fixed;
+  border-collapse: collapse;
+  margin: 25px 0;
+  font-size: 0.9em;
+  font-family: sans-serif;
+  box-shadow: 0 0 20px rgba(0, 0, 0, 0.15);
+  width: 100%;
+}
+
+.styled-table th,
+.styled-table td {
+  padding: 12px 15px;
+}
+
+.styled-table thead tr {
+  background-color: #2697ff;
+  color: #ffffff;
+  text-align: left;
+}
+
+.styled-table tbody tr {
+  border-bottom: 1px solid #dddddd;
+}
+
+.styled-table tbody tr:nth-of-type(even) {
+  background-color: #f3f3f3;
+}
+
+.styled-table tbody tr:last-of-type {
+  border-bottom: 2px solid #2697ff;
+}
+
+table i {
+  cursor: pointer;
+}
+
+.modal {
+  /*display: none;*/
+  position: fixed;
+  width: 100%;
+  height: 100%;
+  background: rgba(0, 0, 0, 0.4);
+  z-index: 1;
+  top: 0;
+  left: 0;
+  overflow: auto;
+  padding-top: 60px;
+}
+
+.modal-content {
+  background-color: #fefefe;
+  padding: 20px;
+  margin: 5% auto 15% auto;
+  /* 5% from the top, 15% from the bottom and centered */
+  border: 1px solid #888;
+  width: 80%;
+}
+
+.row {
+  display: flex;
+  margin: 20px 0;
+}
+
+input[type=text] {
+  width: 100%;
+  padding: 12px 20px;
+  margin: 8px 0;
+  display: inline-block;
+  border: 1px solid #ccc;
+  box-sizing: border-box;
+}
+
+.form-label {
+  display: block;
+}
+
+.column {
+  width: 100%;
+}
+
+.close {
+  position: absolute;
+  right: 25px;
+  top: 0;
+  color: #000;
+  font-size: 35px;
+  font-weight: bold;
+}
+
+.close:hover,
+.close:focus {
+  color: red;
+  cursor: pointer;
+}
+.table-div::-webkit-scrollbar {
+  width: 10px;
+}
+
+.table-div::-webkit-scrollbar-track {
+  border-radius: 10px;
+  background: #e0e0e0;
+
+}
+
+.table-div::-webkit-scrollbar-thumb {
+  background: #888;
+  border-radius: 10px;
+}
+
+.table-div::-webkit-scrollbar-thumb:hover {
+  background: #555;
+}
+.table-container{
+  margin-top: 10px;
+  max-height: 550px;
+  overflow: auto;
+}

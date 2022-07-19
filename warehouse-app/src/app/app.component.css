@@ -5,8 +5,8 @@
     font-family: 'Poppins', sans-serif;
 }
 
-body{
-    min-height: 100vh;
+html, body{
+    height: 100%;
     width: 100%
 }
 .home-section{

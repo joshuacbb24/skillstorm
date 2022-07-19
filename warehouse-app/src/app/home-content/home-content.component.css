@@ -81,15 +81,18 @@
     padding: 20px 20px 100px 6px;
 
 }
+
 .home-content .sales-boxes .top-sales.box {
     overflow-y: hidden;
 
 }
-.home-content .sales-boxes .top-sales.box .sales-details{
+
+.home-content .sales-boxes .top-sales.box .sales-details {
     overflow-y: scroll;
     height: 400px;
 }
-.home-content .sales-boxes .top-sales.box span{
+
+.home-content .sales-boxes .top-sales.box span {
     text-decoration: none;
     color: #000;
     white-space: wrap;
@@ -98,7 +101,8 @@
     margin: 0 10px;
     width: 280px;
 }
-.home-content .sales-boxes .top-sales.box img{
+
+.home-content .sales-boxes .top-sales.box img {
     height: 40px;
     width: 40px;
     object-fit: cover;
@@ -110,7 +114,8 @@
     font-weight: 500;
     padding: 20px 20px 20px 0px;
 }
-.home-content .sales-boxes .top-sales.box .sales-details .details li{
+
+.home-content .sales-boxes .top-sales.box .sales-details .details li {
     display: flex;
     margin: 0 0 10px 0;
     font-size: 15px;
@@ -118,6 +123,7 @@
     align-items: center;
 
 }
+
 .home-content .sales-boxes .recent-sale {
     width: 65%;
     background: #fff;
@@ -147,4 +153,23 @@
 
 table.charts-css {
     /*padding: 87px 0;*/
+}
+
+.sales-details::-webkit-scrollbar {
+    width: 10px;
+}
+
+.sales-details::-webkit-scrollbar-track {
+    border-radius: 10px;
+    background: #e0e0e0;
+
+}
+
+.sales-details::-webkit-scrollbar-thumb {
+    background: #888;
+    border-radius: 10px;
+}
+
+.sales-details::-webkit-scrollbar-thumb:hover {
+    background: #555;
 }
