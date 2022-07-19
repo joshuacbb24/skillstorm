@@ -4,21 +4,29 @@
 
 .table-header {
   display: flex;
+  align-items: center;
+  /*border-bottom: 2px solid black;*/
 }
-.table-div{
+.btn {
   position: relative;
-  max-height: 550px;
-  overflow-y: scroll;
-  width: 1256PX;
+  background-color: DodgerBlue;
+  border: none;
+  color: white;
+  padding: 12px 16px;
+  font-size: 16px;
+  cursor: pointer;
+  margin-left: auto;
+  height: fit-content;
+  display: flex;
 }
-.styled-table {
-  table-layout:fixed;
-  border-collapse: collapse;
-  margin: 25px 0;
-  font-size: 0.9em;
-  font-family: sans-serif;
-  box-shadow: 0 0 20px rgba(0, 0, 0, 0.15);
-  width: 100%;
+.btn i{
+  height: 10px;
+  text-align: center;
+  line-height: 10px;
+}
+.mat-table {
+  height: 550px;
+  overflow-y: auto;
 }
 
 .styled-table th,
@@ -44,7 +52,7 @@
   border-bottom: 2px solid #2697ff;
 }
 
-table i {
+.mat-table i {
   cursor: pointer;
 }
 
@@ -106,26 +114,26 @@ input[type=text] {
   color: red;
   cursor: pointer;
 }
-.table-div::-webkit-scrollbar {
+.mat-table::-webkit-scrollbar {
   width: 10px;
 }
 
-.table-div::-webkit-scrollbar-track {
+.mat-table::-webkit-scrollbar-track {
   border-radius: 10px;
   background: #e0e0e0;
 
 }
 
-.table-div::-webkit-scrollbar-thumb {
+.mat-table::-webkit-scrollbar-thumb {
   background: #888;
   border-radius: 10px;
 }
 
-.table-div::-webkit-scrollbar-thumb:hover {
+.mat-table::-webkit-scrollbar-thumb:hover {
   background: #555;
 }
 .table-container{
+  display: flex;
+  flex-direction: column;
   margin-top: 10px;
-  max-height: 550px;
-  overflow: auto;
 }

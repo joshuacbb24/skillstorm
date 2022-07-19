@@ -26,7 +26,7 @@ export class WarehouseListComponent implements OnInit {
   warehouses :Array<WarehouseData> = [];
   displayedColumns: string[] = ['name', 'address', 'stock', 'capacity', 'edit', 'star'];
   //arrayLength :number = 0;
-  dataSource: MatTableDataSource<WarehouseData>;
+  dataSource: MatTableDataSource<any>;
 
 
   @ViewChild(MatPaginator, { static: true })
