@@ -146,7 +146,9 @@ export class InventoryListComponent implements OnInit {
 
   }
   confirmed(): void {
-
+    this.service.deleteInventory(this.editItem).subscribe(resp => {
+      console.log("response", resp)
+    })
   }
   handleSelect(): void {
 

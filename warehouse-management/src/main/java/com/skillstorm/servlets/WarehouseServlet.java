@@ -17,7 +17,7 @@ import com.skillstorm.daos.WarehouseDAOImp;
 import com.skillstorm.models.Inventory;
 import com.skillstorm.models.Warehouse;
 
-@WebServlet(urlPatterns = "/warehouse")
+@WebServlet(urlPatterns = "/warehouse/*")
 public class WarehouseServlet extends HttpServlet{
 
 	@Override
@@ -75,5 +75,17 @@ public class WarehouseServlet extends HttpServlet{
 //		resp.setHeader("Content-Type", "application/json");
 		resp.setContentType("application/json");
 		resp.getWriter().print(mapper.writeValueAsString(building));
+	}
+	
+	@Override
+	protected void doDelete(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
+		// TODO Auto-generated method stub
+		
+	}
+	
+	@Override
+	protected void doPut(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
+		// TODO Auto-generated method stub
+		super.doPut(req, resp);
 	}
 }

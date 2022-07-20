@@ -15,7 +15,7 @@ import com.skillstorm.daos.InventoryDAO;
 import com.skillstorm.daos.InventoryDAOImp;
 import com.skillstorm.models.Inventory;
 
-@WebServlet(urlPatterns = "/inventory")
+@WebServlet(urlPatterns = "/inventory/*")
 public class InventoryServlet extends HttpServlet{
 
 	private static final long serialVersionUID = 6624045737784858661L;
@@ -47,6 +47,18 @@ public class InventoryServlet extends HttpServlet{
 //		resp.setHeader("Content-Type", "application/json");
 		resp.setContentType("application/json");
 		resp.getWriter().print(mapper.writeValueAsString(item));
+	}
+	
+	@Override
+	protected void doPut(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
+		// TODO Auto-generated method stub
+		super.doPut(req, resp);
+	}
+	
+	@Override
+	protected void doDelete(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
+		// TODO Auto-generated method stub
+		super.doDelete(req, resp);
 	}
 	
 }
