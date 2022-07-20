@@ -54,6 +54,7 @@
 
 .mat-table i {
   cursor: pointer;
+  margin-right: 5px;
 }
 
 .modal {
@@ -71,13 +72,58 @@
 
 .modal-content {
   background-color: #fefefe;
-  padding: 20px;
   margin: 5% auto 15% auto;
-  /* 5% from the top, 15% from the bottom and centered */
   border: 1px solid #888;
-  width: 80%;
+  width: 60%;
+  border-radius: 12px;
+  height: 60%;
 }
+.modal-content.conf{
+  height: 30%;
+  width: 20%;
+  padding: 0;
+  top: 5px;
 
+}
+.confirmation-header{
+  display: flex;
+    position: relative;
+    background: #2697ff;
+    padding: 15px;
+    color: white;
+    border-radius: 12px 12px 0 0;
+    top: -1px;
+    right: 0.5px;
+    width: 90.5%;
+    align-items: center;
+    
+}
+.edit-header{
+  display: flex;
+  position: relative;
+  background: #2697ff;
+  color: white;
+  border-radius: 12px 12px 0 0;
+  top: -1px;
+  right: 0.5px;
+  width: 100.1%;
+  align-items: center;
+  margin-bottom: 20px;
+  height: 55px;
+}
+.create-header{
+  display: flex;
+  position: relative;
+  background: #2697ff;
+  color: white;
+  border-radius: 12px 12px 0 0;
+  top: -1px;
+  right: 0.5px;
+  width: 100.1%;
+  align-items: center;
+  margin-bottom: 20px;
+  height: 55px;
+}
 .row {
   display: flex;
   margin: 20px 0;
@@ -136,4 +182,102 @@ input[type=text] {
   display: flex;
   flex-direction: column;
   margin-top: 10px;
+}
+input[type=text], select {
+  width: 100%;
+  padding: 12px 20px;
+  margin: 8px 0;
+  display: inline-block;
+  border: 1px solid #ccc;
+  border-radius: 4px;
+  box-sizing: border-box;
+}
+
+input[type=submit] {
+  width: 100%;
+  background-color: #4CAF50;
+  color: white;
+  padding: 14px 20px;
+  margin: 8px 0;
+  border: none;
+  border-radius: 4px;
+  cursor: pointer;
+}
+
+input[type=submit]:hover {
+  background-color: #45a049;
+}
+.column.first-row.first-column{
+
+  margin-right: 10px;
+
+}
+.submit{
+  margin-top:20px;
+  margin-left:50%;
+}
+.cancel-confirmation{
+margin-left: 240%;
+font-size: 25px;
+cursor: pointer;
+}
+.button{
+  border: none;
+  color: white;
+  padding: 15px 32px;
+  text-align: center;
+  text-decoration: none;
+  display: inline-block;
+  font-size: 16px;
+  margin: 4px 2px;
+  cursor: pointer;
+}
+button.cancel {
+  background: gainsboro;
+}
+button.delete {
+  background: red;
+
+}
+button.submit{
+  background: #2697ff;
+}
+.conf-body{
+  white-space: wrap;
+  margin: 10px 20px 10px 20px;
+  width: 70%;
+  justify-content: center;
+}
+.conf-footer{
+  display: flex;
+  margin-top: 15px;
+  margin-left: 100px;
+}
+.edit-footer{
+  display: flex;
+  position: relative;
+  float: right;
+  margin-right: 20px;
+}
+.create-footer{
+  display: flex;
+  position: relative;
+  float: right;
+  margin-right: 20px;
+}
+.form-body{
+  padding: 0 20px 20px 20px;
+}
+.edit-title{
+  margin-left: 20px;
+}
+.create-title{
+  margin-left: 20px;
+}
+.error{
+  border-bottom: 2px solid red;
+}
+.error-message{
+  color: red;
+  border-top: 1px solid red;
 }

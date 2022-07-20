@@ -36,7 +36,7 @@ export class InventoryListComponent implements OnInit {
 
   
   service :WarehouseApiService;
-  displayedColumns: string[] = ['name', 'date', 'building', 'quantity', 'edit'];
+  displayedColumns: string[] = ['name', 'date', 'building', 'quantity', 'edit/delete'];
   inventory :Array<any> = [];
   editItem :any = {};
   createQuantity :number = 1;
@@ -46,6 +46,8 @@ export class InventoryListComponent implements OnInit {
   exceeds :Boolean = false;
   isCreateFormHidden :Boolean = true;
   isEditFormHidden :Boolean = true;
+  isConfirmationFormHidden :Boolean = true;
+  errorNotFound :Boolean = true;
   modalHidden :Boolean = true;
   dataSource: MatTableDataSource<any>;
   length :number = 0;
@@ -62,15 +64,27 @@ export class InventoryListComponent implements OnInit {
     this.dataSource = new MatTableDataSource(this.inventory)
 
   }
-  revealEditForm(event :any): void {
+  loadEditData(event :any) :void {
     this.editItem = {
-    id: event.target.getAttribute("data-item-id"),
-    name: event.target.getAttribute("data-item-name"),
-    buildingId: event.target.getAttribute("data-warehouse-id"),
-    buildingName: event.target.getAttribute("data-warehouse-name"),
-    }
-    this.editQuantity = event.target.getAttribute("data-item-quantity")
-
+      id: event.target.parentElement.getAttribute("data-item-id"),
+      name: event.target.parentElement.getAttribute("data-item-name"),
+      buildingId: event.target.parentElement.getAttribute("data-warehouse-id"),
+      buildingName: event.target.parentElement.getAttribute("data-warehouse-name"),
+      }
+      this.editQuantity = event.target.parentElement.getAttribute("data-item-quantity")
+  }
+  revealDeleteConfirmation(event :any) :void {
+    this.loadEditData(event)
+    this.modalHidden = !this.modalHidden;
+    this.isConfirmationFormHidden = !this.isConfirmationFormHidden;
+  }
+  hideDeleteConfirmation() :void {
+    this.modalHidden = !this.modalHidden;
+    this.isConfirmationFormHidden = !this.isConfirmationFormHidden;
+  }
+  revealEditForm(event :any): void {
+    
+    this.loadEditData(event)
     console.log("edit", this.editItem)
     this.modalHidden = !this.modalHidden;
     this.isEditFormHidden = !this.isEditFormHidden;
@@ -81,8 +95,12 @@ export class InventoryListComponent implements OnInit {
     this.modalHidden = !this.modalHidden;
     this.isEditFormHidden = !this.isEditFormHidden;
   }
-  submit() {
-    console.log("form submitted")
+  submit(event :any, action :string) :void {
+    event.preventDefault();
+
+  }
+  confirmed() :void {
+
   }
   /*
   applyFilter(event: Event) {
@@ -106,6 +124,23 @@ export class InventoryListComponent implements OnInit {
   }
   closeForm(): void {
 
+  }
+  capacityCheck(): void {
+    let capacity =  this.warehouses.filter(x => x.id == this.editItem.buildingId)[0];
+    capacity = capacity.capacity;
+    if (this.editQuantity > capacity){
+      console.log("error")
+      this.errorNotFound = true;
+      let errorElement = document.querySelector(".edit-quantity");
+      errorElement ? errorElement.classList.toggle("error") : null;
+    }
+    else{
+      if(this.errorNotFound = true){
+        this.errorNotFound = false;
+        let errorElement = document.querySelector(".edit-quantity");
+        errorElement ? errorElement.classList.toggle("error") : null;
+      }
+    }
   }
   ngOnInit(): void {
     this.service.getInventory().subscribe(data => {
