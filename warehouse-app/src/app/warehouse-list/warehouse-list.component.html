@@ -50,8 +50,8 @@
     </div>
     <div id="nav"></div>
 </div>
-<div class="modal">
-    <form class="modal-content edit">
+<div class="modal" [hidden]="modalHidden">
+    <form class="modal-content edit" [hidden]="isEditFormHidden">
         <header>
             <span class="edit-title">Edit Warehouse</span>
             <button class="btn" (click)="revealCreateForm()"><i class='bx bx-plus'>New</i></button>
@@ -78,7 +78,7 @@
             <button class="submit">Submit</button>
         </footer>
     </form>
-    <form class="modal-content create">
+    <form class="modal-content create" [hidden]="isCreateFormHidden">
         <header>
             <span class="create-title">Create Warehouse</span>
             <button class="btn" (click)="revealCreateForm()"><i class='bx bx-plus'>New</i></button>

@@ -16,6 +16,8 @@ import com.skillstorm.daos.WarehouseDAO;
 import com.skillstorm.daos.WarehouseDAOImp;
 import com.skillstorm.models.Inventory;
 import com.skillstorm.models.Warehouse;
+import com.skillstorm.models.NotFound;
+import com.skillstorm.services.URLParserService;
 
 @WebServlet(urlPatterns = "/warehouse/*")
 public class WarehouseServlet extends HttpServlet{
@@ -48,6 +50,8 @@ public class WarehouseServlet extends HttpServlet{
 	private static final long serialVersionUID = 1309976916400647686L;
 	WarehouseDAO dao = new WarehouseDAOImp();
 	ObjectMapper mapper = new ObjectMapper();
+	URLParserService urlService = new URLParserService();
+
 
 	
 	@Override

@@ -149,7 +149,7 @@ input[type=text] {
   position: absolute;
   right: 25px;
   top: 0;
-  color: #000;
+  color: #FFF;
   font-size: 35px;
   font-weight: bold;
 }
@@ -273,10 +273,11 @@ button.submit{
 .create-title{
   margin-left: 20px;
 }
-.error{
+.edit-quantity.error{
   border-bottom: 2px solid red;
 }
 .error-message{
   color: red;
   border-top: 1px solid red;
+  width: 100%;
 }

@@ -28,6 +28,12 @@ export class WarehouseListComponent implements OnInit {
   //arrayLength :number = 0;
   dataSource: MatTableDataSource<any>;
 
+  isCreateFormHidden: Boolean = true;
+  isEditFormHidden: Boolean = true;
+  isConfirmationFormHidden: Boolean = true;
+  errorNotFound: Boolean = true;
+  modalHidden: Boolean = true;
+
 
   @ViewChild(MatPaginator, { static: true })
   paginator!: MatPaginator;

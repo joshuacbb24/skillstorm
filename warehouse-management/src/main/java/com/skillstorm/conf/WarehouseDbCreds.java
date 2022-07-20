@@ -59,9 +59,9 @@ public class WarehouseDbCreds {
 		return password;
 	}
 	
-	/*
+	
 	public Connection getConnection() throws SQLException {
 		return DriverManager.getConnection(url, username, password);
 	}
-	*/
+	
 }

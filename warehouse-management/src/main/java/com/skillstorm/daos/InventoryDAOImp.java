@@ -30,8 +30,7 @@ public class InventoryDAOImp implements InventoryDAO{
 	public Inventory findById(int id) {
 		String sql = "select building.building_id, building.building_name as building_name, inventory.item_id, inventory.item_name, inventory.quantity, inventory.date_added from inventory inner join building on building.building_id = inventory.building_id where inventory.item_id = " + id;
 		
-		try {
-			Connection conn = DriverManager.getConnection(creds.getUrl(), creds.getUsername(), creds.getPassword());
+		try (Connection conn = WarehouseDbCreds.getInstance().getConnection()){
 			
 			Statement stmt = conn.createStatement();
 			ResultSet rs = stmt.executeQuery(sql);
@@ -52,8 +51,7 @@ public class InventoryDAOImp implements InventoryDAO{
 	public Inventory save(Inventory inventory) {
 		String sql = "insert into inventory (building_id, item_name, quantity, date_added) values (?, ?, ?, ?)";
 		
-		try {
-			Connection conn = DriverManager.getConnection(creds.getUrl(), creds.getUsername(), creds.getPassword());
+		try (Connection conn = WarehouseDbCreds.getInstance().getConnection()){
 			
 			// Start a transaction
 			conn.setAutoCommit(false); // Prevents each query from immediately altering the database
@@ -93,8 +91,8 @@ public class InventoryDAOImp implements InventoryDAO{
 	public void update(Inventory inventory) {
 		String sql = "update inventory set item_name = ? , quantity = ?, date_added =  ? where item_id = ?";
 		
-		try {
-			Connection conn = DriverManager.getConnection(creds.getUrl(), creds.getUsername(), creds.getPassword());
+		try (Connection conn = WarehouseDbCreds.getInstance().getConnection()){
+			
 			
 			// Start a transaction
 			conn.setAutoCommit(false); // Prevents each query from immediately altering the database
@@ -132,8 +130,7 @@ public class InventoryDAOImp implements InventoryDAO{
 	public void delete(int id) {
 		String sql = "delete FROM inventory where item_id = ?";
 		
-		try {
-			Connection conn = DriverManager.getConnection(creds.getUrl(), creds.getUsername(), creds.getPassword());
+		try (Connection conn = WarehouseDbCreds.getInstance().getConnection()){
 
 			// Start a transaction
 			conn.setAutoCommit(false); // Prevents each query from immediately altering the database
@@ -172,8 +169,7 @@ public class InventoryDAOImp implements InventoryDAO{
 	@Override
 	public List<Inventory> findInvByBuildingId(int id) {
 		String sql = "select building.building_id, building.building_name as building_name, inventory.item_id, inventory.item_name, inventory.quantity, inventory.date_added from inventory inner join building on building.building_id = inventory.building_id where building.building_id = " + id;
-		try {
-			Connection conn = DriverManager.getConnection(creds.getUrl(), creds.getUsername(), creds.getPassword());
+		try (Connection conn = WarehouseDbCreds.getInstance().getConnection()){
 			
 			Statement stmt = conn.createStatement();
 			ResultSet rs = stmt.executeQuery(sql);
@@ -201,8 +197,7 @@ public class InventoryDAOImp implements InventoryDAO{
 	public List<Inventory> findAll() {
 		String sql = "select building.building_id, building.building_name as building_name, inventory.item_id, inventory.item_name, inventory.quantity, inventory.date_added from inventory inner join building on building.building_id = inventory.building_id ORDER BY building_name, inventory.item_name;";
 		
-		try {
-			Connection conn = DriverManager.getConnection(creds.getUrl(), creds.getUsername(), creds.getPassword());
+		try (Connection conn = WarehouseDbCreds.getInstance().getConnection()){
 			
 			Statement stmt = conn.createStatement();
 			ResultSet rs = stmt.executeQuery(sql);
