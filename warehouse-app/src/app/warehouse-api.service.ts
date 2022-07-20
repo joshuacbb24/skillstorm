@@ -30,4 +30,11 @@ export class WarehouseApiService {
     return this.http.get(environment.apiUrl + 'activity-list');
   }
   
+  addToInventory(item :any) :Observable<any> {
+    return this.http.post(environment.apiUrl, item)
+  }
+  editInventory(item :any) :Observable<any> {
+    return this.http.post(environment.apiUrl, item)
+  }
+  
 }

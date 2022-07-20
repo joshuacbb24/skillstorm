@@ -14,6 +14,7 @@ import javax.servlet.http.HttpServletResponse;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.skillstorm.daos.WarehouseDAO;
 import com.skillstorm.daos.WarehouseDAOImp;
+import com.skillstorm.models.Inventory;
 import com.skillstorm.models.Warehouse;
 
 @WebServlet(urlPatterns = "/warehouse")
@@ -60,7 +61,19 @@ public class WarehouseServlet extends HttpServlet{
 	
 	@Override
 	protected void doPost(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
-		// TODO Auto-generated method stub
-		super.doPost(req, resp);
+		System.out.println("Hello POST!");
+		// Using Jackson we can parse the request body for the data to create an Artist
+		
+		// Using JSON
+		ObjectMapper mapper = new ObjectMapper(); // Use the mapper to map JSON to POJO
+		InputStream reqBody = req.getInputStream();
+		// Pass the InputStream as well as the class of the object to translate to
+		Warehouse building = mapper.readValue(reqBody, Warehouse.class); 
+		System.out.println(building);
+		
+		// Send back the updated object as JSON
+//		resp.setHeader("Content-Type", "application/json");
+		resp.setContentType("application/json");
+		resp.getWriter().print(mapper.writeValueAsString(building));
 	}
 }

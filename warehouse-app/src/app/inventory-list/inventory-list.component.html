@@ -25,10 +25,11 @@
             </ng-container>
             <ng-container matColumnDef="edit/delete">
                 <mat-header-cell *matHeaderCellDef mat-sort-header>Edit/Delete</mat-header-cell>
-                <mat-cell *matCellDef="let item"[attr.data-item-id]="item.id"
+                <mat-cell *matCellDef="let item" [attr.data-item-id]="item.id"
                 [attr.data-item-name]="item.name" [attr.data-warehouse-id]="item.buildingId"
-                [attr.data-warehouse-name]="item.buildingName" [attr.data-item-quantity]="item.quantity" ><i class='bx bx-edit-alt'
-                        (click)="revealEditForm($event)"></i><i (click)="revealDeleteConfirmation($event)" class='bx bx-trash' ></i></mat-cell>
+                [attr.data-warehouse-name]="item.buildingName" [attr.data-item-quantity]="item.quantity">
+                <i class='bx bx-edit-alt' (click)="revealEditForm($event)"></i>
+                <i (click)="revealDeleteConfirmation($event)" class='bx bx-trash' ></i></mat-cell>
             </ng-container>
 
 
@@ -42,10 +43,10 @@
     </div>
 </div>
 <div class="modal" [hidden]="modalHidden">
-    <form #myEditForm="ngForm" class="modal-content edit" [hidden]="isEditFormHidden" (ngSubmit)="submit($event, 'edit')">
+    <form #myEditForm="ngForm" class="modal-content edit" [hidden]="isEditFormHidden" (ngSubmit)="submit($event, 'edit', createItem)">
         <header class="edit-header">
         <span class="edit-title">Edit Inventory</span>
-        <span class="close" title="Close Modal" (click)="hideEditForm(myEditForm)">&times;</span>
+        <span class="close" title="Close Modal" (click)="hideEditForm()">&times;</span>
     </header>
     <div class="form-body">
         <div class="row">
@@ -80,22 +81,22 @@
         </div>
     </div>
     <footer class="edit-footer">
-        <button class="button cancel" (click)="hideEditForm(myEditForm)">Cancel</button>
+        <button class="button cancel" (click)="hideEditForm()">Cancel</button>
         <button class="button submit" type="submit">Submit</button>
     </footer>
 
     </form>
 
-    <form #myCreateForm="ngForm" class="modal-content create" [hidden]="isCreateFormHidden" (ngSubmit)="submit($event, 'create')">
+    <form #myCreateForm="ngForm" class="modal-content create" [hidden]="isCreateFormHidden" (ngSubmit)="submit($event, 'create', createItem)">
         <header class="create-header">
             <span class="create-title">Create Inventory</span>
-        <span class="close" title="Close Modal" (click)="hideCreateForm(myCreateForm)">&times;</span>
+        <span class="close" title="Close Modal" (click)="hideCreateForm()">&times;</span>
     </header>
     <div class="form-body">
         <div class="row">
             <div class="column first-row first-column">
                 <label class="form-label" for="item-name">Item Name:</label>
-                <input type="text" class="item-name" name="item-name" minlength="1" maxlength="45" ngModel>
+                <input type="text" class="item-name" name="item-name" minlength="1" maxlength="45" [(ngModel)]="createItem.id">
             </div>
             <div class="column">
                 <label class="form-label" for="quantity">Quantity:</label>
@@ -107,8 +108,8 @@
         <div class="row">
             <div class="column">
                 <label class="form-label" for="building">Building Name:</label>
-                <select (onchange)="handleSelect()" required ngModel name="building">
-                    <option role="option" [value]="warehouse.id" *ngFor="let warehouse of warehouses">{{warehouse.name}}
+                <select (onchange)="handleSelect()" required [(ngModel)]="createItem.buildingName" name="building">
+                    <option role="option" [value]="warehouse.name" *ngFor="let warehouse of warehouses">{{warehouse.name}}
                     </option>
                 </select>
             </div>
@@ -116,12 +117,12 @@
         <div class="row">
             <div class="column">
                 <label class="form-label" for="date">Date:</label>
-                <input type="text" class="date" name="date" [ngModel]="date" required disabled>
+                <input type="text" class="date" name="date" [ngModel]="date" [(ngModel)]="createItem.date" required disabled>
             </div>
         </div>
     </div>
         <footer class="create-footer">
-        <button class="button cancel" (click)="hideCreateForm(myCreateForm)">Cancel</button>
+        <button class="button cancel" (click)="hideCreateForm()">Cancel</button>
         <button class="button submit" type="submit">Submit</button>
         </footer>
     </form>

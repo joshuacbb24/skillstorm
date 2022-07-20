@@ -1,9 +1,9 @@
 import { AfterViewInit, Component, OnInit, ViewChild } from '@angular/core';
 import { WarehouseApiService } from '../warehouse-api.service';
 import { WarehouseListComponent } from '../warehouse-list/warehouse-list.component';
-import {MatSort} from '@angular/material/sort';
+import { MatSort } from '@angular/material/sort';
 import { MatPaginator } from '@angular/material/paginator';
-import {MatTableDataSource} from '@angular/material/table';
+import { MatTableDataSource } from '@angular/material/table';
 import { MatPaginatorModule } from '@angular/material/paginator';
 import { NgForm } from '@angular/forms';
 import { _isNumberValue } from '@angular/cdk/coercion';
@@ -30,27 +30,35 @@ export interface ITEM {
   selector: 'app-inventory-list',
   templateUrl: './inventory-list.component.html',
   styleUrls: ['./inventory-list.component.css'],
-  
+
 })
 export class InventoryListComponent implements OnInit {
 
+
+  service: WarehouseApiService;
+
   
-  service :WarehouseApiService;
+  inventory: Array<any> = [];
+  warehouses: Array<any> = [];
+
+  editItem: any = {};
+  createItem: any = {};
+
+  createQuantity: number = 1;
+  editQuantity: number = 0
+  
+  date: String = (new Date()).toISOString().split('T')[0];
+
+  //exceeds: Boolean = false;
+  isCreateFormHidden: Boolean = true;
+  isEditFormHidden: Boolean = true;
+  isConfirmationFormHidden: Boolean = true;
+  errorNotFound: Boolean = true;
+  modalHidden: Boolean = true;
+
   displayedColumns: string[] = ['name', 'date', 'building', 'quantity', 'edit/delete'];
-  inventory :Array<any> = [];
-  editItem :any = {};
-  createQuantity :number = 1;
-  editQuantity :number = 0
-  warehouses :Array<any> = [];
-  date :String = (new Date()).toISOString().split('T')[0];
-  exceeds :Boolean = false;
-  isCreateFormHidden :Boolean = true;
-  isEditFormHidden :Boolean = true;
-  isConfirmationFormHidden :Boolean = true;
-  errorNotFound :Boolean = true;
-  modalHidden :Boolean = true;
   dataSource: MatTableDataSource<any>;
-  length :number = 0;
+  length: number = 0;
 
 
   @ViewChild(MatPaginator, { static: true })
@@ -59,50 +67,113 @@ export class InventoryListComponent implements OnInit {
   @ViewChild(MatSort)
   sort: MatSort = new MatSort;
 
-  constructor(service :WarehouseApiService) {
+  constructor(service: WarehouseApiService) {
     this.service = service;
     this.dataSource = new MatTableDataSource(this.inventory)
 
   }
-  loadEditData(event :any) :void {
+  loadEditData(event: any): void {
     this.editItem = {
       id: event.target.parentElement.getAttribute("data-item-id"),
       name: event.target.parentElement.getAttribute("data-item-name"),
       buildingId: event.target.parentElement.getAttribute("data-warehouse-id"),
       buildingName: event.target.parentElement.getAttribute("data-warehouse-name"),
-      }
-      this.editQuantity = event.target.parentElement.getAttribute("data-item-quantity")
+    }
+    this.editQuantity = event.target.parentElement.getAttribute("data-item-quantity")
+    this.editItem.quantity = this.editQuantity;
   }
-  revealDeleteConfirmation(event :any) :void {
+  revealDeleteConfirmation(event: any): void {
     this.loadEditData(event)
-    this.modalHidden = !this.modalHidden;
-    this.isConfirmationFormHidden = !this.isConfirmationFormHidden;
+    this.hideCreateForm();
+    this.hideEditForm()
+    this.modalHidden = false
+    this.isConfirmationFormHidden = false
   }
-  hideDeleteConfirmation() :void {
-    this.modalHidden = !this.modalHidden;
-    this.isConfirmationFormHidden = !this.isConfirmationFormHidden;
+  hideDeleteConfirmation(): void {
+    this.modalHidden = true
+    this.isConfirmationFormHidden = true
   }
-  revealEditForm(event :any): void {
-    
+  revealEditForm(event: any): void {
+
     this.loadEditData(event)
+    this.hideDeleteConfirmation()
+    this.hideCreateForm()
     console.log("edit", this.editItem)
-    this.modalHidden = !this.modalHidden;
-    this.isEditFormHidden = !this.isEditFormHidden;
+    this.modalHidden = false
+    this.isEditFormHidden = false
 
   }
-  hideEditForm(form :NgForm) :void {
+  hideEditForm(): void {
 
-    this.modalHidden = !this.modalHidden;
-    this.isEditFormHidden = !this.isEditFormHidden;
+    this.modalHidden = true
+    this.isEditFormHidden = true
   }
-  submit(event :any, action :string) :void {
+  revealCreateForm(): void {
+    this.hideDeleteConfirmation()
+    this.hideEditForm()
+    this.modalHidden = false
+    this.isCreateFormHidden = false
+  }
+  hideCreateForm(): void {
+    this.modalHidden = true
+    this.isCreateFormHidden = true
+  }
+  submit(event: any, action: string, createItem: any): void {
     event.preventDefault();
+    if (action === 'create') {
+      if (this.capacityCheck(this.createQuantity)) {
+        createItem.quantity = this.createQuantity;
+        console.log(createItem)
+        this.service.addToInventory(createItem).subscribe(resp => {
+        console.log("response", resp)
+        })
+      }
+      else {
+
+      }
+    }
+    else {
+      if (this.capacityCheck(this.editQuantity)) {
+        this.service.editInventory(this.editItem).subscribe(resp => {
+        console.log("response", resp)
+        })
+      }
+      else{
+
+      }
+    }
+
 
   }
-  confirmed() :void {
+  confirmed(): void {
 
   }
-  /*
+  handleSelect(): void {
+
+  }
+  closeForm(): void {
+
+  }
+  capacityCheck(quantity :any): Boolean {
+    let capacity = this.warehouses.filter(x => x.id == this.editItem.buildingId)[0];
+    capacity = capacity.capacity;
+    if (quantity > capacity) {
+      console.log("error")
+      this.errorNotFound = false;
+      let errorElement = document.querySelector(".edit-quantity");
+      errorElement ? errorElement.classList.toggle("error") : null;
+      return false;
+    }
+    else {
+      if (this.errorNotFound == false) {
+        this.errorNotFound = true;
+        let errorElement = document.querySelector(".edit-quantity");
+        errorElement ? errorElement.classList.toggle("error") : null;
+      }
+      return true;
+    }
+  }
+    /*
   applyFilter(event: Event) {
     const filterValue = (event.target as HTMLInputElement).value;
     this.dataSource.filter = filterValue.trim().toLowerCase();
@@ -111,37 +182,6 @@ export class InventoryListComponent implements OnInit {
       this.dataSource.paginator.firstPage();
     }
   }*/
-  revealCreateForm(): void {
-    this.modalHidden = !this.modalHidden;
-    this.isCreateFormHidden = !this.isCreateFormHidden;
-  }
-  hideCreateForm(form :NgForm) :void {
-    this.modalHidden = !this.modalHidden;
-    this.isEditFormHidden = !this.isEditFormHidden;
-  }
-  handleSelect(): void{
-
-  }
-  closeForm(): void {
-
-  }
-  capacityCheck(): void {
-    let capacity =  this.warehouses.filter(x => x.id == this.editItem.buildingId)[0];
-    capacity = capacity.capacity;
-    if (this.editQuantity > capacity){
-      console.log("error")
-      this.errorNotFound = true;
-      let errorElement = document.querySelector(".edit-quantity");
-      errorElement ? errorElement.classList.toggle("error") : null;
-    }
-    else{
-      if(this.errorNotFound = true){
-        this.errorNotFound = false;
-        let errorElement = document.querySelector(".edit-quantity");
-        errorElement ? errorElement.classList.toggle("error") : null;
-      }
-    }
-  }
   ngOnInit(): void {
     this.service.getInventory().subscribe(data => {
       this.inventory = data
@@ -152,7 +192,7 @@ export class InventoryListComponent implements OnInit {
       console.log("length", this.length)
       console.log(this.inventory)
     });
-    
+
     this.service.findAllWarehouses().subscribe(data => {
       this.warehouses = data;
     })

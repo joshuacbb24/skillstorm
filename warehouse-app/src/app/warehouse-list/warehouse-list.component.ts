@@ -42,6 +42,15 @@ export class WarehouseListComponent implements OnInit {
   revealCreateForm() :void {
     
   }
+  hideCreateForm() :void {
+
+  }
+  revealEditForm() :void {
+    
+  }
+  hideEditForm() :void {
+
+  }
   ngOnInit(): void {
     //this.dataSource = new MatTableDataSource(this.warehouses);
    
