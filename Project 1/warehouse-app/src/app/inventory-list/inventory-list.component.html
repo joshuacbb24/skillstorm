@@ -70,7 +70,7 @@
             </div>
             <div class="row">
                 <div class="column">
-                    <label class="form-label" for="building">Building Name:</label>
+                    <label class="form-label" for="building">Warehouse Name:</label>
                     <select name="building" id="edit-building" [(ngModel)]="editItem.buildingId"
                         (change)="handleSelect($event)" required #building="ngModel">
                         <option role="option" [value]="warehouse.id" *ngFor="let warehouse of warehouses">
@@ -119,7 +119,7 @@
             </div>
             <div class="row">
                 <div class="column">
-                    <label class="form-label" for="building">Building Name:</label>
+                    <label class="form-label" for="building">Warehouse Name:</label>
                     <select (change)="handleSelect($event)" id="create-building" required
                         [(ngModel)]="createItem.buildingId" name="building" #createBuilding="ngModel">
                         <option role="option" [value]="warehouse.id" *ngFor="let warehouse of warehouses">
