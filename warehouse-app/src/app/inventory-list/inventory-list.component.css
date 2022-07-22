@@ -76,8 +76,12 @@
   width: 60%;
   border-radius: 12px;
   height: 60%;
+  min-height: 60%;
+  max-height: 60%;
 }
 .modal-content.conf{
+  max-height: 30%;
+  min-height: 30%;
   height: 30%;
   width: 20%;
   padding: 0;
@@ -126,15 +130,6 @@
 .row {
   display: flex;
   margin: 20px 0;
-}
-
-input[type=text] {
-  width: 100%;
-  padding: 12px 20px;
-  margin: 8px 0;
-  display: inline-block;
-  border: 1px solid #ccc;
-  box-sizing: border-box;
 }
 
 .form-label {
@@ -259,13 +254,14 @@ button.submit{
   margin-right: 20px;
 }
 .create-footer{
+
   display: flex;
   position: relative;
   float: right;
   margin-right: 20px;
 }
 .form-body{
-  padding: 0 20px 20px 20px;
+  padding: 0 20px 0 20px;
 }
 .edit-title{
   margin-left: 20px;
@@ -278,6 +274,5 @@ button.submit{
 }
 .error-message{
   color: red;
-  border-top: 1px solid red;
   width: 100%;
 }

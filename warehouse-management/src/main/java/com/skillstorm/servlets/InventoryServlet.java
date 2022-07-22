@@ -84,7 +84,9 @@ public class InventoryServlet extends HttpServlet {
 			Inventory item = mapper.readValue(reqBody, Inventory.class);
 			if (item != null) {
 				System.out.println("editing " + item);
-				dao.update(item);
+				int id = item.getId();
+				Inventory item2 = dao.findById(id); 
+				dao.update(item, item2);
 				List<Inventory> inventory = dao.findInvByBuildingId(item.getBuildingId());
 
 				for (Inventory item1 : inventory) {
@@ -93,6 +95,17 @@ public class InventoryServlet extends HttpServlet {
 				Warehouse warehouse = warehouseDao.findById(item.getBuildingId());
 				warehouseDao.updateStock(warehouse, stock);
 				
+				stock = 0;
+				
+				List<Inventory> inventory1 = dao.findInvByBuildingId(item.getOldBuildingId());
+
+				for (Inventory item1 : inventory1) {
+					stock = stock + item1.getQuantity();
+				}
+				
+				Warehouse warehouse1 = warehouseDao.findById(item.getOldBuildingId());
+				warehouseDao.updateStock(warehouse1, stock);
+								
 				resp.setStatus(200);
 				resp.setContentType("application/json");
 				resp.getWriter().print(mapper.writeValueAsString(item));

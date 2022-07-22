@@ -11,4 +11,5 @@ public interface WarehouseDAO {
 	public Warehouse findById(int id);
 	public Warehouse findByName(String name);
 	public void updateStock(Warehouse warehouse, int quantity);
+	public void update(Warehouse warehouse);
 }

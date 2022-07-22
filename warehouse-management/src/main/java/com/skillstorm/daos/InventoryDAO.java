@@ -13,7 +13,7 @@ public interface InventoryDAO {
 	public List<Inventory> findAll();
 	//public Inventory findByName(String name);
 	public Inventory save(Inventory item);
-	public void update(Inventory item); // contains the id and updates as needed
+	public void update(Inventory item, Inventory item2); // contains the id and updates as needed
 	//public void delete(Inventory item);
 	public void delete(int id);
 	public void deleteMany(int[] id);

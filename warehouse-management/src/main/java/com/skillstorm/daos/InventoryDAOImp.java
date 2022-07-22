@@ -88,36 +88,91 @@ public class InventoryDAOImp implements InventoryDAO{
 	}
 
 	@Override
-	public void update(Inventory inventory) {
-		String sql = "update inventory set item_name = ? , quantity = ?, date_added =  ? where item_id = ?";
-		
+	public void update(Inventory inventory, Inventory inventory2) {
+		String sql = "update inventory set item_name = ? , quantity = ?, date_added =  ?, building_id = ? where item_id = ?";
+		String sql2 = "insert into inventory (building_id, item_name, quantity, date_added) values (?, ?, ?, ?)";
 		try (Connection conn = WarehouseDbCreds.getInstance().getConnection()){
 			
 			
 			// Start a transaction
 			conn.setAutoCommit(false); // Prevents each query from immediately altering the database
-			
-			// Obtain auto incremented values like so
 			PreparedStatement ps = conn.prepareStatement(sql, Statement.RETURN_GENERATED_KEYS);
-			ps.setString(1, inventory.getName());
-			ps.setInt(2, inventory.getQuantity());
-			ps.setString(3, inventory.getDate());
-			ps.setInt(4, inventory.getId());
-			
-			int rowsAffected = ps.executeUpdate(); // If 0 is returned, my data didn't save
-			if (rowsAffected != 0) {
-				// If I want my keys do this code
-				ResultSet keys = ps.getGeneratedKeys();
-				// List a of all generated keys
-//				if (keys.next()) {
-//					int key = keys.getInt(1); // Give me the auto generated key
-//					artist.setId(key);
-//					return artist;
-//				}
-				conn.commit(); // Executes ALL queries in a given transaction. Green button
-			} else {
-				conn.rollback(); // Undoes any of the queries. Database pretends those never happened
+			PreparedStatement ps2 = conn.prepareStatement(sql2, Statement.RETURN_GENERATED_KEYS);
+
+
+			if(inventory.getBuildingId() == inventory2.getBuildingId())
+			{
+				ps.setString(1, inventory.getName());
+				ps.setInt(2, inventory.getQuantity());
+				ps.setString(3, inventory.getDate());
+				ps.setInt(4, inventory.getBuildingId());
+				ps.setInt(5, inventory.getId());
+				
+				int rowsAffected = ps.executeUpdate(); // If 0 is returned, my data didn't save
+				
+				if (rowsAffected != 0) {
+					
+					
+					// If I want my keys do this code
+					ResultSet keys = ps.getGeneratedKeys();
+					// List a of all generated keys
+//					if (keys.next()) {
+//						int key = keys.getInt(1); // Give me the auto generated key
+//						artist.setId(key);
+//						return artist;
+//					}
+					conn.commit(); // Executes ALL queries in a given transaction. Green button
+				} else {
+					conn.rollback(); // Undoes any of the queries. Database pretends those never happened
+				}
+				
 			}
+			else {
+				int newQuantity = inventory.getQuantity();
+				int oldQuantity = inventory2.getQuantity();
+				if(newQuantity >= oldQuantity)
+				{
+					inventory2.setQuantity(0);
+				}
+				else
+				{
+					inventory2.setQuantity((oldQuantity - newQuantity));
+				}
+				ps2.setInt(1, inventory.getBuildingId());
+				ps2.setString(2, inventory.getName());
+				ps2.setInt(3, inventory.getQuantity());
+				ps2.setString(4, inventory.getDate());
+				
+
+				
+				ps.setString(1, inventory2.getName());
+				ps.setInt(2, inventory2.getQuantity());
+				ps.setString(3, inventory2.getDate());
+				ps.setInt(4, inventory2.getBuildingId());
+				ps.setInt(5, inventory2.getId());
+				
+				int rowsAffected = ps.executeUpdate(); // If 0 is returned, my data didn't save
+				int rowsAffected2 = ps2.executeUpdate();
+				if (rowsAffected != 0 && rowsAffected2 != 0) {
+					
+					
+					// If I want my keys do this code
+					ResultSet keys = ps.getGeneratedKeys();
+					ResultSet keys2 = ps2.getGeneratedKeys();
+					// List a of all generated keys
+//					if (keys.next()) {
+//						int key = keys.getInt(1); // Give me the auto generated key
+//						artist.setId(key);
+//						return artist;
+//					}
+					conn.commit(); // Executes ALL queries in a given transaction. Green button
+				} else {
+					conn.rollback(); // Undoes any of the queries. Database pretends those never happened
+				}
+				}
+			
+			
+
 			
 		} catch (SQLException e) {
 			e.printStackTrace();

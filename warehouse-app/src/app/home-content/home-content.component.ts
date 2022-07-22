@@ -19,6 +19,8 @@ export class HomeContentComponent implements OnInit {
   }
 
   ngOnInit(): void {
+    let navbar = document.getElementById('dashboard');
+    navbar ? navbar.innerText = "Dashboard" : null;
     this.service.findfavoriteWareshouses().subscribe(data => {
       this.warehouses = data
       console.log(this.warehouses)

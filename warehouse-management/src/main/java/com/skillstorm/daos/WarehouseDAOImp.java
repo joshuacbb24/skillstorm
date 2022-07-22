@@ -158,6 +158,38 @@ public class WarehouseDAOImp implements WarehouseDAO{
 		}
 		
 	}
+	@Override
+	public void update(Warehouse warehouse) {
+		String sql = "update building set favorited = ? where building_id = ?";
+		
+		try (Connection conn = WarehouseDbCreds.getInstance().getConnection()){
+			
+			conn.setAutoCommit(false);
+			
+			PreparedStatement ps = conn.prepareStatement(sql, Statement.RETURN_GENERATED_KEYS);
+			ps.setInt(1, warehouse.getFavorited());
+			ps.setInt(2, warehouse.getId());
+			
+			int rowsAffected = ps.executeUpdate(); // If 0 is returned, my data didn't save
+			if (rowsAffected != 0) {
+				// If I want my keys do this code
+				ResultSet keys = ps.getGeneratedKeys();
+				// List a of all generated keys
+//				if (keys.next()) {
+//					int key = keys.getInt(1); // Give me the auto generated key
+//					artist.setId(key);
+//					return artist;
+//				}
+				conn.commit(); // Executes ALL queries in a given transaction. Green button
+			} else {
+				conn.rollback(); // Undoes any of the queries. Database pretends those never happened
+			}
+			
+		} catch (Exception e) {
+			e.printStackTrace();
+		}
+		
+	}
 
 
 }

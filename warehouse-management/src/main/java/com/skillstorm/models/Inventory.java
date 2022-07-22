@@ -5,6 +5,7 @@ public class Inventory {
 	private int id;
 	private int buildingId;
 	private String buildingName;
+	private int oldBuildingId;
 	private String name;
 	private int quantity;
 	private String date;
@@ -93,6 +94,16 @@ public class Inventory {
 
 	public void setBuildingName(String buildingName) {
 		this.buildingName = buildingName;
+	}
+
+
+	public int getOldBuildingId() {
+		return oldBuildingId;
+	}
+
+
+	public void setOldBuildingId(int oldBuildingId) {
+		this.oldBuildingId = oldBuildingId;
 	}
 
 

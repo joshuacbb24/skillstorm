@@ -1,7 +1,7 @@
 <div class="warehouse-content">
     <div class="table-header">
         <h2>Warehouse Table</h2>
-        <button class="btn" (click)="revealCreateForm()"><i class='bx bx-plus'>New</i></button>
+        <!--<button class="btn" (click)="revealCreateForm()"><i class='bx bx-plus'>New</i></button>-->
     </div>
     <div class="table-container mat-elevation-z8">
         <mat-table class="styled-table" [dataSource]="dataSource" matSort>
@@ -13,7 +13,11 @@
             </ng-container>
             <ng-container matColumnDef="address">
                 <mat-header-cell *matHeaderCellDef mat-sort-header>Address</mat-header-cell>
-                <mat-cell *matCellDef="let warehouse">Philadelphia, PA</mat-cell>
+                <mat-cell *matCellDef="let warehouse">356 Terra Cotta Street Philadelphia, PA</mat-cell>
+            </ng-container>
+            <ng-container matColumnDef="zip">
+                <mat-header-cell *matHeaderCellDef mat-sort-header>Zipcode</mat-header-cell>
+                <mat-cell *matCellDef="let warehouse">19099</mat-cell>
             </ng-container>
             <ng-container matColumnDef="stock">
                 <mat-header-cell *matHeaderCellDef mat-sort-header>Stock</mat-header-cell>
@@ -31,8 +35,8 @@
             <ng-container matColumnDef="star">
                 <mat-header-cell *matHeaderCellDef mat-sort-header>Star</mat-header-cell>
                 <mat-cell *matCellDef="let warehouse"><i *ngIf="warehouse.favorited == 1;" class='bx bxs-star filled'
-                        [attr.data-warehouse-id]="warehouse.id"></i><i *ngIf="warehouse.favorited == 0;"
-                        class='bx bx-star' [attr.data-warehouse-id]="warehouse.id"></i></mat-cell>
+                        [attr.data-warehouse-id]="warehouse.id" (click)="toggleStar(warehouse)"></i><i *ngIf="warehouse.favorited == 0;"
+                        class='bx bx-star' [attr.data-warehouse-id]="warehouse.id" (click)="toggleStar(warehouse)"></i></mat-cell>
             </ng-container>
 
             <!-- Row shown when there is no matching data. -->
@@ -50,6 +54,7 @@
     </div>
     <div id="nav"></div>
 </div>
+<!--
 <div class="modal" [hidden]="modalHidden">
     <form class="modal-content edit" [hidden]="isEditFormHidden">
         <header>
@@ -105,4 +110,5 @@
             <button class="submit">Submit</button>
         </footer>
     </form>
-</div>
+    
+</div>-->

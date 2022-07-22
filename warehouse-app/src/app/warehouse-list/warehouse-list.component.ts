@@ -24,7 +24,7 @@ export class WarehouseListComponent implements OnInit {
 
   service :WarehouseApiService;
   warehouses :Array<WarehouseData> = [];
-  displayedColumns: string[] = ['name', 'address', 'stock', 'capacity', 'edit', 'star'];
+  displayedColumns: string[] = ['name', 'address', 'zip', 'stock', 'capacity', 'edit', 'star'];
   //arrayLength :number = 0;
   dataSource: MatTableDataSource<any>;
 
@@ -57,15 +57,26 @@ export class WarehouseListComponent implements OnInit {
   hideEditForm() :void {
 
   }
-  ngOnInit(): void {
-    //this.dataSource = new MatTableDataSource(this.warehouses);
-   
+  toggleStar(warehouse :any) :void {
+    console.log("toggle star", warehouse)
+    this.service.toggleFavorite(warehouse).subscribe(data => {
+      this.update();
+    })
+
+  }
+  update() :void {
     this.service.findAllWarehouses().subscribe(data => {
       this.warehouses = data;
       this.dataSource = new MatTableDataSource(data);
       this.dataSource.paginator = this.paginator;
       this.dataSource.sort = this.sort;
     })
+  }
+  ngOnInit(): void {
+    //this.dataSource = new MatTableDataSource(this.warehouses);
+    let navbar = document.getElementById('dashboard');
+    navbar ? navbar.innerText = "Warehouses" : null;
+    this.update();
     //this.showPages();
 
     //this.arrayLength = this.warehouses.length; 

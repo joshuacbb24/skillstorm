@@ -188,7 +188,7 @@ button.submit{
   background: #2697ff;
 }
 .form-body{
-  padding: 0 20px 20px 20px;
+  padding: 0 20px 0 20px;
 }
 footer{
   display: flex;

@@ -25,11 +25,12 @@
             </ng-container>
             <ng-container matColumnDef="edit/delete">
                 <mat-header-cell *matHeaderCellDef mat-sort-header>Edit/Delete</mat-header-cell>
-                <mat-cell *matCellDef="let item" [attr.data-item-id]="item.id"
-                [attr.data-item-name]="item.name" [attr.data-warehouse-id]="item.buildingId"
-                [attr.data-warehouse-name]="item.buildingName" [attr.data-item-quantity]="item.quantity">
-                <i class='bx bx-edit-alt' (click)="revealEditForm($event)"></i>
-                <i (click)="revealDeleteConfirmation($event)" class='bx bx-trash' ></i></mat-cell>
+                <mat-cell *matCellDef="let item" [attr.data-item-id]="item.id" [attr.data-item-name]="item.name"
+                    [attr.data-warehouse-id]="item.buildingId" [attr.data-warehouse-name]="item.buildingName"
+                    [attr.data-item-quantity]="item.quantity">
+                    <i class='bx bx-edit-alt' (click)="revealEditForm($event)"></i>
+                    <i (click)="revealDeleteConfirmation($event)" class='bx bx-trash'></i>
+                </mat-cell>
             </ng-container>
 
 
@@ -43,96 +44,113 @@
     </div>
 </div>
 <div class="modal" [hidden]="modalHidden">
-    <form #myEditForm="ngForm" class="modal-content edit" [hidden]="isEditFormHidden" (ngSubmit)="submit($event, 'edit', editItem)">
+    <form #myEditForm="ngForm" class="modal-content edit" [hidden]="isEditFormHidden"
+        (ngSubmit)="submit($event, 'edit', editItem, myEditForm)">
         <header class="edit-header">
-        <span class="edit-title">Edit Inventory</span>
-        <span class="close" title="Close Modal" (click)="hideEditForm()">&times;</span>
-    </header>
-    <div class="form-body">
-        <div class="row">
-            <div class="column first-row first-column">
-                <label class="form-label" for="item-name">Item Name:</label>
-                <input type="text" class="item-name" name="item-name" minlength="1" maxlength="45"
-                    [(ngModel)]="editItem.name">
+            <span class="edit-title">Edit Inventory</span>
+            <span class="close" title="Close Modal" (click)="hideEditForm(myEditForm)">&times;</span>
+        </header>
+        <div class="form-body">
+            <div class="row">
+                <div class="column first-row first-column">
+                    <label class="form-label" for="item-name">Item Name:</label>
+                    <input type="text" class="item-name" name="item-name" minlength="1" maxlength="45"
+                        [(ngModel)]="editItem.name" required #name="ngModel">
+                    <span *ngIf="name.errors?.['required']" class="error-message">Name is required</span>
+                </div>
+                <div class="column">
+                    <label class="form-label" for="quantity">Quantity:</label>
+                    <input type="text" [(ngModel)]="editQuantity" pattern="^(^$|0|[1-9][0-9]*)$" class="edit-quantity"
+                        name="quantity" oninput="if(!this.value.match('^(^$|0|[1-9][0-9]*)$'))this.value='0';" required
+                        #quantityEditEmpty="ngModel">
+                    <span class="error-message" [hidden]="errorNotFound">Quantity has exceeded the capacity</span>
+                    <span *ngIf="quantityEditEmpty.errors?.['required']" class="error-message">Quantity is
+                        required</span>
+                </div>
             </div>
-            <div class="column">
-                <label class="form-label" for="quantity">Quantity:</label>
-                <input type="text" [(ngModel)]="editQuantity" pattern="^[1-9][0-9]*$" class="edit-quantity" name="quantity"
-                    oninput="if(!this.value.match('^[1-9][0-9]*$'))this.value='';"
-                    required>
-                <span class="error-message" [hidden]="errorNotFound">Quantity has exceeded the capacity</span>
+            <div class="row">
+                <div class="column">
+                    <label class="form-label" for="building">Building Name:</label>
+                    <select name="building" id="edit-building" [(ngModel)]="editItem.buildingId"
+                        (change)="handleSelect($event)" required #building="ngModel">
+                        <option role="option" [value]="warehouse.id" *ngFor="let warehouse of warehouses">
+                            {{warehouse.name}}
+                        </option>
+                    </select>
+                    <span *ngIf="building.errors?.['required']" class="error-message">Warehouse is required</span>
+                </div>
+            </div>
+            <div class="row">
+                <div class="column">
+                    <label class="form-label" for="date">Date:</label>
+                    <input type="text" class="date" name="date" [ngModel]="editItem.date" required disabled>
+                </div>
             </div>
         </div>
-        <div class="row">
-            <div class="column">
-                <label class="form-label" for="building">Building Name:</label>
-                <select name="building" id="edit-building" [(ngModel)]="editItem.buildingId" (change)="handleSelect($event)" required disabled>
-                    <option role="option" [value]="editItem.buildingId" name="warehouse" selected>{{ editItem.buildingName }}
-                    </option>
-                </select>
-            </div>
-        </div>
-        <div class="row">
-            <div class="column">
-                <label class="form-label" for="date">Date:</label>
-                <input type="text" class="date" name="date" [ngModel]="date" required disabled>
-            </div>
-        </div>
-    </div>
-    <footer class="edit-footer">
-        <button class="button cancel" (click)="hideEditForm()">Cancel</button>
-        <button class="button submit" type="submit">Submit</button>
-    </footer>
+        <footer class="edit-footer">
+            <button class="button cancel" (click)="hideEditForm(myEditForm)">Cancel</button>
+            <button class="button submit" type="submit">Submit</button>
+        </footer>
 
     </form>
 
-    <form #myCreateForm="ngForm" class="modal-content create" [hidden]="isCreateFormHidden" (ngSubmit)="submit($event, 'create', createItem)">
+    <form #myCreateForm="ngForm" class="modal-content create" [hidden]="isCreateFormHidden"
+        (ngSubmit)="submit($event, 'create', createItem, myCreateForm)">
         <header class="create-header">
             <span class="create-title">Create Inventory</span>
-        <span class="close" title="Close Modal" (click)="hideCreateForm()">&times;</span>
-    </header>
-    <div class="form-body">
-        <div class="row">
-            <div class="column first-row first-column">
-                <label class="form-label" for="item-name">Item Name:</label>
-                <input type="text" class="item-name" name="item-name" minlength="1" maxlength="45" [(ngModel)]="createItem.name">
-            </div>
-            <div class="column">
-                <label class="form-label" for="quantity">Quantity:</label>
-                <input type="text" pattern="^[1-9][0-9]*$" class="create-quantity" name="quantity" [(ngModel)]="createQuantity"
-                    oninput="if(!this.value.match('^[1-9][0-9]*$'))this.value='';" required>
+            <span class="close" title="Close Modal" (click)="hideCreateForm(myCreateForm)">&times;</span>
+        </header>
+        <div class="form-body">
+            <div class="row">
+                <div class="column first-row first-column">
+                    <label class="form-label" for="item-name">Item Name:</label>
+                    <input type="text" class="item-name" name="item-name" required minlength="1" maxlength="45"
+                        [(ngModel)]="createItem.name" #createName="ngModel">
+                    <span *ngIf="createName.errors?.['required']" class="error-message">Name is required</span>
+                </div>
+                <div class="column">
+                    <label class="form-label" for="quantity">Quantity:</label>
+                    <input type="text" pattern="^[1-9][0-9]*$" class="create-quantity" name="quantity"
+                        [(ngModel)]="createQuantity" oninput="if(!this.value.match('^[1-9][0-9]*$'))this.value='';"
+                        required #quantityEmpty="ngModel">
                     <span class="error-message" [hidden]="errorNotFound">Quantity has exceeded the capacity</span>
+                    <span *ngIf="quantityEmpty.errors?.['required']" class="error-message">Quantity is required</span>
+                </div>
+            </div>
+            <div class="row">
+                <div class="column">
+                    <label class="form-label" for="building">Building Name:</label>
+                    <select (change)="handleSelect($event)" id="create-building" required
+                        [(ngModel)]="createItem.buildingId" name="building" #createBuilding="ngModel">
+                        <option role="option" [value]="warehouse.id" *ngFor="let warehouse of warehouses">
+                            {{warehouse.name}}
+                        </option>
+                    </select>
+                    <span *ngIf="createBuilding.errors?.['required']" class="error-message">Warehouse is required</span>
+                </div>
+            </div>
+            <div class="row">
+                <div class="column">
+                    <label class="form-label" for="date">Date:</label>
+                    <input type="text" class="date" name="date" [(ngModel)]="createItem.date" required disabled>
+
+                </div>
             </div>
         </div>
-        <div class="row">
-            <div class="column">
-                <label class="form-label" for="building">Building Name:</label>
-                <select (change)="handleSelect($event)" id="create-building" required [(ngModel)]="createItem.buildingId" name="building">
-                    <option role="option" [value]="warehouse.id" *ngFor="let warehouse of warehouses">{{warehouse.name}}
-                    </option>
-                </select>
-            </div>
-        </div>
-        <div class="row">
-            <div class="column">
-                <label class="form-label" for="date">Date:</label>
-                <input type="text" class="date" name="date" [value]="date" [(ngModel)]="date" required disabled>
-            </div>
-        </div>
-    </div>
         <footer class="create-footer">
-        <button class="button cancel" (click)="hideCreateForm()">Cancel</button>
-        <button class="button submit" type="submit">Submit</button>
+            <button class="button cancel" (click)="hideCreateForm(myCreateForm)">Cancel</button>
+            <button class="button submit" type="submit">Submit</button>
         </footer>
     </form>
-    <form #myConfirmationForm="ngForm" class="modal-content conf" [hidden]="isConfirmationFormHidden" (ngSubmit)="confirmed()">
-            <header class="confirmation-header">
-                <span class="titl">Confirm<span class="close" (click)="hideDeleteConfirmation()">&times;</span></span>
-            </header>
-            <div class="conf-body">
-                <span class="conf-text">Are you sure you want to remove the item from inventory</span>
-            </div>
-            <footer class="conf-footer">
+    <form #myConfirmationForm="ngForm" class="modal-content conf" [hidden]="isConfirmationFormHidden"
+        (ngSubmit)="confirmed()">
+        <header class="confirmation-header">
+            <span class="titl">Confirm<span class="close" (click)="hideDeleteConfirmation()">&times;</span></span>
+        </header>
+        <div class="conf-body">
+            <span class="conf-text">Are you sure you want to remove the item from inventory</span>
+        </div>
+        <footer class="conf-footer">
             <button class="button cancel" (click)="hideDeleteConfirmation()">No</button>
             <button class="button delete" type="submit">Yes</button>
         </footer>

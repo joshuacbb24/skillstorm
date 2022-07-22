@@ -1,4 +1,4 @@
-import { AfterViewInit, Component, OnInit, ViewChild } from '@angular/core';
+import { AfterViewInit, Component, OnInit, ViewChild, ViewChildren, QueryList, ElementRef, Input  } from '@angular/core';
 import { WarehouseApiService } from '../warehouse-api.service';
 import { WarehouseListComponent } from '../warehouse-list/warehouse-list.component';
 import { MatSort } from '@angular/material/sort';
@@ -7,6 +7,7 @@ import { MatTableDataSource } from '@angular/material/table';
 import { MatPaginatorModule } from '@angular/material/paginator';
 import { NgForm } from '@angular/forms';
 import { _isNumberValue } from '@angular/cdk/coercion';
+import { NavbarComponent } from '../navbar/navbar.component';
 
 
 export interface WarehouseData {
@@ -44,10 +45,11 @@ export class InventoryListComponent implements OnInit {
   editItem: any = {};
   createItem: any = {};
 
-  createQuantity: number = 1;
-  editQuantity: number = 0
+  createQuantity: any = 1;
+  editQuantity: any = 0
   
-  date: String = (new Date()).toISOString().split('T')[0];
+  date = new Date();
+  
 
   isCreateFormHidden: Boolean = true;
   isEditFormHidden: Boolean = true;
@@ -66,9 +68,11 @@ export class InventoryListComponent implements OnInit {
   @ViewChild(MatSort)
   sort: MatSort = new MatSort;
 
+
   constructor(service: WarehouseApiService) {
     this.service = service;
     this.dataSource = new MatTableDataSource(this.inventory)
+    
 
   }
   /**
@@ -81,6 +85,7 @@ export class InventoryListComponent implements OnInit {
       id: event.target.parentElement.getAttribute("data-item-id"),
       name: event.target.parentElement.getAttribute("data-item-name"),
       buildingId: event.target.parentElement.getAttribute("data-warehouse-id"),
+      oldBuildingId: event.target.parentElement.getAttribute("data-warehouse-id"),
       buildingName: event.target.parentElement.getAttribute("data-warehouse-name"),
     }
     this.editQuantity = event.target.parentElement.getAttribute("data-item-quantity")
@@ -101,21 +106,27 @@ export class InventoryListComponent implements OnInit {
     console.log("edit", this.editItem)
     this.modalHidden = false
     this.isEditFormHidden = false
+    this.editItem.date = this.date.getFullYear() + "-" + (this.date.getMonth() + 1) + "-" + this.date.getDate();;
 
   }
-  hideEditForm(): void {
+  hideEditForm(form :NgForm): void {
     this.modalHidden = true
     this.isEditFormHidden = true
     this.errorNotFound = true
+    //form.reset();
   }
   revealCreateForm(): void {
     this.modalHidden = false
     this.isCreateFormHidden = false
+    this.createQuantity = 1
+    this.createItem.date = this.date.getFullYear() + "-" + (this.date.getMonth() + 1) + "-" + this.date.getDate();
+
   }
-  hideCreateForm(): void {
+  hideCreateForm(form :NgForm): void {
     this.modalHidden = true
     this.isCreateFormHidden = true
     this.errorNotFound = true
+    form.reset();
   }
   /**
    * This function is called when the user clicks the submit button on the form. It prevents the
@@ -128,32 +139,45 @@ export class InventoryListComponent implements OnInit {
    * 'create' or 'edit'.
    * @param {any} itemObject - This is the object that is being passed in from the form.
    */
-  submit(event: any, action: string, itemObject: any): void {
+  submit(event: any, action: string, itemObject: any, form: NgForm): void {
     event.preventDefault();
-    itemObject.date = this.date;
-    if (action === 'create') {
-      if (this.capacityCheck(this.createQuantity, itemObject)) {
+    
+
+
+    /* This is checking if the name and buildingId fields are not empty. */
+    if((itemObject.name != undefined && itemObject.name != '') && (itemObject.buildingId != undefined  && itemObject.buildingId != ''))
+    {
+
+
+    /* This is checking if the user is creating an item and if the quantity is not 0 or empty. */
+    if (action === 'create' && (this.createQuantity != 0 && this.createQuantity != '')) {
+      if (this.capacityCheck(this.createQuantity, itemObject, 0)) {
         itemObject.quantity = this.createQuantity;
         console.log(itemObject)
         this.service.addToInventory(itemObject).subscribe(resp => {
         console.log("response", resp)
         this.update();
         })
+        this.hideCreateForm(form);
+        //form.reset();
       }
-      this.hideCreateForm();
-    }
-    else {
       
-      if (this.capacityCheck(this.editQuantity, itemObject)) {
+    }
+  
+/* This is checking if the user is editing an item and if the quantity is not 0 or empty. */
+    else if (action === 'edit' && this.editQuantity != '') {
+      
+      if (this.capacityCheck(this.editQuantity, itemObject, 1)) {
         itemObject.quantity = this.editQuantity;
         this.service.editInventory(itemObject).subscribe(resp => {
         console.log("response", resp)
         this.update();
         })
+        this.hideEditForm(form);
+        //form.reset();
       }
     }
-
-    this.hideEditForm();
+  }
   }
   confirmed(): void {
     this.service.deleteInventory(this.editItem.id).subscribe(resp => {
@@ -175,26 +199,30 @@ export class InventoryListComponent implements OnInit {
    * @param {any} itemObject - The item object that is being edited.
    * @returns A boolean value.
    */
-  capacityCheck(quantity :any, itemObject :any): Boolean {
+  capacityCheck(quantity :any, itemObject :any, choice :number): Boolean {
+    /* Getting the warehouse that the item is in. */
     let warehouse = this.warehouses.filter(x => x.id == itemObject.buildingId)[0];
-    /* Getting the capacity of the warehouse. */
     let capacity = warehouse.capacity; 
     let stock = warehouse.stock;
-    
+
+    /* Checking if the user is editing an item. If the user is editing an item, the quantity
+    that the user wants to add is the difference between the quantity that the user wants to add and
+    the quantity that the item currently has. */
+    if (choice === 1)
+    {
     quantity = quantity - itemObject.quantity;
-    
+    } 
+
+    /* Checking if the quantity that the user wants to add is greater than the capacity of the
+    warehouse. */
     if (quantity + stock > capacity) {
       console.log("error")
       this.errorNotFound = false;
-      let errorElement = document.querySelector(".edit-quantity");
-      errorElement ? errorElement.classList.toggle("error") : null;
       return false;
     }
     else {
-      if (this.errorNotFound == false) {
+      if (this.errorNotFound === false) {
         this.errorNotFound = true;
-        let errorElement = document.querySelector(".edit-quantity");
-        errorElement ? errorElement.classList.toggle("error") : null;
       }
       return true;
     }
@@ -233,16 +261,10 @@ export class InventoryListComponent implements OnInit {
    * The function gets the inventory from the service and then sets the dataSource to the inventory
    */
   ngOnInit(): void {
-    this.service.getInventory().subscribe(data => {
-      this.inventory = data
-      this.dataSource = new MatTableDataSource(data);
-      this.dataSource.paginator = this.paginator;
-      this.dataSource.sort = this.sort;
-      this.length = data.length;
-      console.log("length", this.length)
-      console.log(this.inventory)
-    });
+    let navbar = document.getElementById('dashboard');
+    navbar ? navbar.innerText = "Inventory" : null;
 
+    console.log(navbar);
     this.update();
   }
 

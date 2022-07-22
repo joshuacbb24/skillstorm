@@ -38,6 +38,9 @@ export class WarehouseApiService {
   deleteInventory(item :number) :Observable<any> {
     return this.http.delete(environment.apiUrl + 'inventory/' + item)
   }
+  toggleFavorite(warehouse :any) :Observable<any> {
+    return this.http.put(environment.apiUrl + 'warehouse/', warehouse);
+  }
 
   
 }
