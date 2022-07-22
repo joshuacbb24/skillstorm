@@ -128,6 +128,17 @@ export class InventoryListComponent implements OnInit {
     this.errorNotFound = true
     form.reset();
   }
+    confirmed(): void {
+    this.service.deleteInventory(this.editItem.id).subscribe(resp => {
+      this.update();
+    })
+    this.hideDeleteConfirmation();
+  }
+  handleSelect(event :any): void {
+    let text = event.target.options[event.target.options.selectedIndex].text;
+    console.log("selected",text);
+    this.createItem.buildingName = text;
+  }
   /**
    * This function is called when the user clicks the submit button on the form. It prevents the
    * default action of the form, sets the date of the item to the current date, and then checks if the
@@ -179,20 +190,8 @@ export class InventoryListComponent implements OnInit {
     }
   }
   }
-  confirmed(): void {
-    this.service.deleteInventory(this.editItem.id).subscribe(resp => {
-      this.update();
-    })
-    this.hideDeleteConfirmation();
-  }
-  handleSelect(event :any): void {
-    let text = event.target.options[event.target.options.selectedIndex].text;
-    console.log("selected",text);
-    this.createItem.buildingName = text;
-  }
-  closeForm(): void {
 
-  }
+
   /**
    * It checks if the quantity of the item is greater than the capacity of the warehouse
    * @param {any} quantity - The quantity that the user wants to add.
@@ -215,7 +214,7 @@ export class InventoryListComponent implements OnInit {
 
     /* Checking if the quantity that the user wants to add is greater than the capacity of the
     warehouse. */
-    if (quantity + stock > capacity) {
+    if (Number(quantity) + stock > capacity) {
       console.log("error")
       this.errorNotFound = false;
       return false;

@@ -48,8 +48,6 @@ public class InventoryServlet extends HttpServlet {
 
 		// Using JSON
 		InputStream reqBody = req.getInputStream();
-		// Pass the InputStream as well as the class of the object to translate to
-		// System.out.println(req.getRequestURL().append('?').append(req.getQueryString()));
 
 		Inventory item = mapper.readValue(reqBody, Inventory.class);
 		System.out.println(item);
@@ -68,27 +66,31 @@ public class InventoryServlet extends HttpServlet {
 			e.printStackTrace();
 		}
 
-		// Send back the updated object as JSON
-//		resp.setHeader("Content-Type", "application/json");
+
 		resp.setContentType("application/json");
 		resp.getWriter().print(mapper.writeValueAsString(item));
 
 	}
 
 	@Override
+	// A method that is called when a HTTP PUT request is sent to the servlet.
 	protected void doPut(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
 
 		try {
 			int stock = 0;
 			InputStream reqBody = req.getInputStream();
 			Inventory item = mapper.readValue(reqBody, Inventory.class);
+			// Checking to see if the item is null. If it is null, it will return a 404 error.
 			if (item != null) {
 				System.out.println("editing " + item);
 				int id = item.getId();
 				Inventory item2 = dao.findById(id); 
 				dao.update(item, item2);
+				// Finding all the inventory items in the database that have the same building id as the item that
+				// was just added.
 				List<Inventory> inventory = dao.findInvByBuildingId(item.getBuildingId());
 
+				// Looping through the inventory list and adding the quantity of each item to the stock variable.
 				for (Inventory item1 : inventory) {
 					stock = stock + item1.getQuantity();
 				}
@@ -99,6 +101,7 @@ public class InventoryServlet extends HttpServlet {
 				
 				List<Inventory> inventory1 = dao.findInvByBuildingId(item.getOldBuildingId());
 
+				// Looping through the inventory list and adding the quantity of each item to the stock variable.
 				for (Inventory item1 : inventory1) {
 					stock = stock + item1.getQuantity();
 				}
@@ -128,6 +131,7 @@ public class InventoryServlet extends HttpServlet {
 			int id = urlService.extractIdFromURL(req.getPathInfo());
 			Inventory item = dao.findById(id);
 			System.out.println("deleting " + item);
+			// Checking to see if the item is null. If it is null, it will return a 404 error.
 			if (item != null) {
 				dao.delete(id);
 				Warehouse warehouse = warehouseDao.findById(item.getBuildingId());

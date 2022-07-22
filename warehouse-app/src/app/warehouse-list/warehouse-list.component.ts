@@ -24,7 +24,7 @@ export class WarehouseListComponent implements OnInit {
 
   service :WarehouseApiService;
   warehouses :Array<WarehouseData> = [];
-  displayedColumns: string[] = ['name', 'address', 'zip', 'stock', 'capacity', 'edit', 'star'];
+  displayedColumns: string[] = ['name', 'address', 'zip', 'stock', 'capacity', 'star'];
   //arrayLength :number = 0;
   dataSource: MatTableDataSource<any>;
 

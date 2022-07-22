@@ -27,11 +27,12 @@
                 <mat-header-cell *matHeaderCellDef mat-sort-header>Capacity</mat-header-cell>
                 <mat-cell *matCellDef="let warehouse">{{warehouse.capacity}}</mat-cell>
             </ng-container>
+            <!--
             <ng-container matColumnDef="edit">
                 <mat-header-cell *matHeaderCellDef mat-sort-header>Edit</mat-header-cell>
                 <mat-cell *matCellDef="let warehouse"><i class='bx bx-edit-alt'
                         [attr.data-warehouse-id]="warehouse.id"></i></mat-cell>
-            </ng-container>
+            </ng-container>-->
             <ng-container matColumnDef="star">
                 <mat-header-cell *matHeaderCellDef mat-sort-header>Star</mat-header-cell>
                 <mat-cell *matCellDef="let warehouse"><i *ngIf="warehouse.favorited == 1;" class='bx bxs-star filled'
