@@ -2,6 +2,7 @@ package com.skillstorm.daos;
 
 import java.sql.Connection;
 import java.sql.DriverManager;
+import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.sql.Statement;
@@ -20,9 +21,9 @@ public class ActionsDAOImp implements ActionsDAO{
 	public List<Action> findAll() {
 		
 		
-		String sql = "select activity.user, message.action_message from activity inner join message on activity.code=message.code";
-		try {
-			Connection conn = DriverManager.getConnection(creds.getUrl(), creds.getUsername(), creds.getPassword());
+		String sql = "select activity.user, message.action_message from activity inner join message on activity.code=message.code order by activity_id desc";
+		try (Connection conn = WarehouseDbCreds.getInstance().getConnection()){
+			
 			
 			Statement stmt = conn.createStatement();
 			ResultSet rs = stmt.executeQuery(sql);
@@ -44,6 +45,43 @@ public class ActionsDAOImp implements ActionsDAO{
 			e.printStackTrace();
 		}
 		return null;
+	}
+
+	@Override
+	public void insert(int code, String name) {
+		String sql = "insert into activity (code, user) values (?, ?)";
+		
+		try(Connection conn = WarehouseDbCreds.getInstance().getConnection()){
+			
+			conn.setAutoCommit(false); // Prevents each query from immediately altering the database
+			PreparedStatement ps = conn.prepareStatement(sql, Statement.RETURN_GENERATED_KEYS);
+			
+			ps.setInt(1, code);
+			ps.setString(2, name);
+			
+			int rowsAffected = ps.executeUpdate();
+			
+			if (rowsAffected != 0) {
+				
+				
+				// If I want my keys do this code
+				ResultSet keys = ps.getGeneratedKeys();
+				// List a of all generated keys
+//				if (keys.next()) {
+//					int key = keys.getInt(1); // Give me the auto generated key
+//					artist.setId(key);
+//					return artist;
+//				}
+				conn.commit(); // Executes ALL queries in a given transaction. Green button
+			} else {
+				conn.rollback(); // Undoes any of the queries. Database pretends those never happened
+			}
+			
+			
+		}catch (Exception e) {
+			e.printStackTrace();
+		}
+		
 	}
 
 }

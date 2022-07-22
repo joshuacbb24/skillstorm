@@ -7,4 +7,5 @@ import com.skillstorm.models.Action;
 public interface ActionsDAO {
 
 	public List<Action> findAll();
+	public void insert(int code, String user);
 }

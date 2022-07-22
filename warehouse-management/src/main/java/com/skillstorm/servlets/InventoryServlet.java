@@ -11,6 +11,8 @@ import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
 import com.fasterxml.jackson.databind.ObjectMapper;
+import com.skillstorm.daos.ActionsDAO;
+import com.skillstorm.daos.ActionsDAOImp;
 import com.skillstorm.daos.InventoryDAO;
 import com.skillstorm.daos.InventoryDAOImp;
 import com.skillstorm.daos.WarehouseDAO;
@@ -24,6 +26,7 @@ import com.skillstorm.services.URLParserService;
 public class InventoryServlet extends HttpServlet {
 
 	private static final long serialVersionUID = 6624045737784858661L;
+	ActionsDAO actionsdao = new ActionsDAOImp();
 	InventoryDAO dao = new InventoryDAOImp();
 	WarehouseDAO warehouseDao = new WarehouseDAOImp();
 	ObjectMapper mapper = new ObjectMapper();
@@ -60,6 +63,7 @@ public class InventoryServlet extends HttpServlet {
 			}
 			Warehouse warehouse = warehouseDao.findById(item.getBuildingId());
 			warehouseDao.updateStock(warehouse, stock);
+			actionsdao.insert(100, "John Doe");
 			
 
 		} catch (Exception e) {
@@ -108,7 +112,8 @@ public class InventoryServlet extends HttpServlet {
 				
 				Warehouse warehouse1 = warehouseDao.findById(item.getOldBuildingId());
 				warehouseDao.updateStock(warehouse1, stock);
-								
+				actionsdao.insert(102, "John Doe");
+				
 				resp.setStatus(200);
 				resp.setContentType("application/json");
 				resp.getWriter().print(mapper.writeValueAsString(item));
@@ -138,6 +143,7 @@ public class InventoryServlet extends HttpServlet {
 				stock = warehouse.getStock();
 				stock = stock - 1;
 				warehouseDao.updateStock(warehouse, stock);
+				actionsdao.insert(101, "John Doe");
 				resp.setStatus(200);
 				resp.setContentType("application/json");
 			} else {
